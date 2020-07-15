@@ -7,3 +7,5 @@ abstract class PopularEvent extends Equatable {
 }
 
 class FetchPopular extends PopularEvent{}
+class InitialFetchPopular extends PopularEvent{}
+class RefreshPopular extends PopularEvent{}

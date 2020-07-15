@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 
-class PopularModel extends Equatable{
+class PopularTerbaruModel extends Equatable{
   String title,chapter,type,thumb,endpoint,update;
 
-  PopularModel({this.title, this.chapter, this.type, this.thumb, this.endpoint,
+  PopularTerbaruModel({this.title, this.chapter, this.type, this.thumb, this.endpoint,
       this.update});
 
-  factory PopularModel.fromJson(Map<String,dynamic>json){
-   return PopularModel(
+  factory PopularTerbaruModel.fromJson(Map<String,dynamic>json){
+   return PopularTerbaruModel(
     title: json['title'],
     endpoint: json['endpoint'],
     thumb: json['thumb'],

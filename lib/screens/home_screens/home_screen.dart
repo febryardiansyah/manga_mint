@@ -8,6 +8,7 @@ import 'package:mangamint/bloc/bloc.dart';
 import 'package:mangamint/bloc/genre_list_bloc/bloc.dart';
 import 'package:mangamint/bloc/popular_bloc/bloc.dart';
 import 'package:mangamint/bloc/recomended_bloc/bloc.dart';
+import 'package:mangamint/bloc/terbaru_bloc/bloc.dart';
 import 'package:mangamint/components/my_body.dart';
 import 'package:mangamint/constants/base_color.dart';
 import 'package:mangamint/models/manga_list_model.dart';
@@ -15,6 +16,7 @@ import 'package:mangamint/repositories/recommended_repo.dart';
 import 'package:mangamint/screens/detail_screen/index_detail.dart';
 import 'package:mangamint/screens/home_screens/genre_list.dart';
 import 'package:mangamint/screens/home_screens/my_carousel.dart';
+import 'package:mangamint/screens/home_screens/terbaru.dart';
 import 'package:mangamint/screens/home_screens/terpopular.dart';
 import 'package:provider/provider.dart';
 
@@ -44,21 +46,20 @@ class _HomeScreenState extends State<HomeScreen> {
   RecomendedBloc _recomendedBloc;
   GenreListBloc _genreListBloc;
   PopularBloc _popularBloc;
+  TerbaruBloc _terbaruBloc;
   @override
   void initState() {
     super.initState();
-    _recomendedBloc = BlocProvider.of<RecomendedBloc>(context);
-    _recomendedBloc.add(FetchRecommended());
-    _popularBloc = BlocProvider.of<PopularBloc>(context);
-    _popularBloc.add(FetchPopular());
-    _genreListBloc = BlocProvider.of<GenreListBloc>(context);
-    _genreListBloc.add(FetchGenreList());
+    init();
 
   }
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init();
     return MyBody(
+      onRefresh: (){
+        _onRefresh();
+      },
       title: Text('MangaMint',style: GoogleFonts.modak(color: BaseColor.red),),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 15),
@@ -68,7 +69,12 @@ class _HomeScreenState extends State<HomeScreen> {
             _rowTitle(
               title: 'Popular',
               seemore: (){},
-              child: Terpopular()
+              child: TerpopularCategory()
+            ),
+            _rowTitle(
+                title: 'Terbaru',
+                seemore: (){},
+                child: TerbaruCategory()
             ),
             _categoryTitle('Genre'),
             GenreListHome(),
@@ -99,5 +105,21 @@ class _HomeScreenState extends State<HomeScreen> {
         child
       ],
     );
+  }
+  void init(){
+    _recomendedBloc = BlocProvider.of<RecomendedBloc>(context);
+    _recomendedBloc.add(FetchRecommended());
+    _popularBloc = BlocProvider.of<PopularBloc>(context);
+    _popularBloc.add(InitialFetchPopular());
+    _genreListBloc = BlocProvider.of<GenreListBloc>(context);
+    _genreListBloc.add(FetchGenreList());
+    _terbaruBloc = BlocProvider.of<TerbaruBloc>(context);
+    _terbaruBloc.add(InitialTerbaruEvent());
+  }
+  void _onRefresh(){
+    _recomendedBloc.add(RefreshRecommended());
+    _popularBloc.add(RefreshPopular());
+    _terbaruBloc.add(RefreshTerbaru());
+    _genreListBloc.add(RefreshGenreList());
   }
 }

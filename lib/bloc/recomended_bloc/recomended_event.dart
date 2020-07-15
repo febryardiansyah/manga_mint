@@ -6,3 +6,4 @@ abstract class RecomendedEvent extends Equatable {
   List<Object> get props => [];
 }
 class FetchRecommended extends RecomendedEvent{}
+class RefreshRecommended extends RecomendedEvent{}

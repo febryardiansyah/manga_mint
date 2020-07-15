@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mangamint/bloc/recomended_bloc/bloc.dart';
+import 'package:mangamint/components/image_cache_loading.dart';
 import 'package:mangamint/components/my_shimmer.dart';
 import 'package:mangamint/constants/base_color.dart';
 import 'package:mangamint/repositories/recommended_repo.dart';
@@ -40,39 +41,43 @@ class _MyCarouselState extends State<MyCarousel> {
             children: [
               CarouselSlider(
                 items: state.recommendedList.map((e){
-                  return ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    child: CachedNetworkImage(
-                      imageUrl: e.thumb,
-                      errorWidget: (context,data,_)=> Center(child: Text(data),),
-                      placeholder: (context,data) => Center(child: CircularProgressIndicator(),),
-                      imageBuilder: (context,imgProvider){
-                        return Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 500.h,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: imgProvider,
-                                  fit: BoxFit.cover
-                              )
-                          ),
-                          child: Container(
-                            padding: EdgeInsets.all(8),
-                            child: Center(child: Text(e.title,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),)),
+                  return InkWell(
+                    onTap: (){
+                      Navigator.pushNamed(context, '/detailmanga',arguments:
+                      e.endpoint);
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      child: ImageCacheLoading(
+                        imgUrl: e.thumb,
+                        imageBuilder: (context,imgProvider){
+                          return Container(
                             width: MediaQuery.of(context).size.width,
+                            height: 500.h,
                             decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.center,
-                                    colors: [
-                                      BaseColor.black,
-                                      Colors.black.withOpacity(0.4)
-                                    ]
+                                image: DecorationImage(
+                                    image: imgProvider,
+                                    fit: BoxFit.cover
                                 )
                             ),
-                          ),
-                        );
-                      },
+                            child: Container(
+                              padding: EdgeInsets.all(8),
+                              child: Center(child: Text(e.title,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),)),
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.bottomCenter,
+                                      end: Alignment.center,
+                                      colors: [
+                                        BaseColor.black,
+                                        Colors.black.withOpacity(0.4)
+                                      ]
+                                  )
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   );
                 }).toList(),

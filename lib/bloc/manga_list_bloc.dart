@@ -30,22 +30,43 @@ class MangaListBloc extends Bloc<MangaListEvent, MangaListState> {
     final currentState = state;
     int page = 1;
     if(event is FetchManga && !_hasReachedMax(currentState)){
-     try{
-       if(currentState is InitialMangaListState){
-         yield MangaListLoadingState();
-         final List<MangaListModel>list = await _mangaListRepo.getMangaList(page: page);
-         yield MangaListStateLoaded(mangaList: list,hasReachedMax: false,page: page+=1);
-       }
-       if(currentState is MangaListStateLoaded){
-         final List<MangaListModel>list = await _mangaListRepo.getMangaList(
-             page: currentState.page
-         );
-         yield list.isEmpty ? currentState.copyWith(hasReachedMax: true):
-         MangaListStateLoaded(mangaList: currentState.mangaList + list,hasReachedMax: false,page: currentState.page+=1);
-       }
-     }catch(e){
-       yield MangaListStateFailure(msg: e.toString());
-     }
+    yield* _fetchMangaToState(currentState, page);
+    }
+    if(event is InitialFetchMangaEvent){
+      yield* _initialEventToState(currentState, page);
+    }
+  }
+  Stream<MangaListState> _fetchMangaToState(MangaListState currentState,int page)async*{
+    try{
+      if(currentState is InitialMangaListState){
+        yield MangaListLoadingState();
+        final List<MangaListModel>list = await _mangaListRepo.getMangaList(page: 2);
+        yield MangaListStateLoaded(mangaList: list,hasReachedMax: false,page: page+=1);
+      }
+      if(currentState is MangaListStateLoaded){
+        final List<MangaListModel>list = await _mangaListRepo.getMangaList(
+            page: currentState.page
+        );
+        yield list.isEmpty ? currentState.copyWith(hasReachedMax: true):
+        MangaListStateLoaded(mangaList: currentState.mangaList + list,hasReachedMax: false,page: currentState.page+=1);
+      }
+    }catch(e){
+      yield MangaListStateFailure(msg: e.toString());
+    }
+  }
+  Stream<MangaListState> _initialEventToState(MangaListState currentState,int page)async*{
+    try{
+      if(currentState is InitialMangaListState){
+        yield MangaListLoadingState();
+        final List<MangaListModel>list = await _mangaListRepo.getMangaList(page: page);
+        yield MangaListStateLoaded(mangaList: list,hasReachedMax: false,page: page+=1);
+      }
+      if(currentState is MangaListStateLoaded){
+        yield MangaListStateLoaded(mangaList: currentState.mangaList,page: page,hasReachedMax: false);
+      }
+    }catch(e){
+      yield MangaListStateFailure(msg: e.toString());
+
     }
   }
 }

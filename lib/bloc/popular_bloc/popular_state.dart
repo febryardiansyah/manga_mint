@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:mangamint/models/popular_model.dart';
+import 'package:mangamint/models/popular_terbaru_model.dart';
 
 abstract class PopularState extends Equatable {
   const PopularState();
@@ -10,12 +10,12 @@ abstract class PopularState extends Equatable {
 class InitialPopularState extends PopularState {}
 class PopularLoadingState extends PopularState{}
 class PopularLoadedState extends PopularState{
-  final List<PopularModel>popularList;
+  final List<PopularTerbaruModel>popularList;
   final bool hasReachedMax;
   int page = 0;
 
   PopularLoadedState({this.popularList, this.hasReachedMax,this.page});
-  PopularLoadedState copyWith({List<PopularModel>popularList,bool hasReachedMax}){
+  PopularLoadedState copyWith({List<PopularTerbaruModel>popularList,bool hasReachedMax}){
     return PopularLoadedState(
       popularList: popularList ?? this.popularList,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax

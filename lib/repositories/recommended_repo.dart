@@ -11,7 +11,7 @@ class RecommendedRepo{
     if(response.statusCode == 200){
       var res = json.decode(response.body);
       List<RecommendedList>recommendedList = RecommendedModel.fromJson(res).recommendedList;
-      print(recommendedList[0].update);
+      print(recommendedList[0].thumb);
       return recommendedList;
     }else{
       throw Exception('Failed Fetch');

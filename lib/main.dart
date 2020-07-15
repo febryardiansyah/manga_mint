@@ -8,6 +8,7 @@ import 'package:mangamint/bloc/genre_list_bloc/bloc.dart';
 import 'package:mangamint/bloc/manga_detail_bloc/bloc.dart';
 import 'package:mangamint/bloc/popular_bloc/bloc.dart';
 import 'package:mangamint/bloc/recomended_bloc/bloc.dart';
+import 'package:mangamint/bloc/terbaru_bloc/bloc.dart';
 import 'package:mangamint/components/bottom_nav_bar.dart';
 import 'package:mangamint/constants/base_color.dart';
 import 'package:mangamint/helper/routes.dart';
@@ -17,10 +18,13 @@ import 'package:mangamint/repositories/manga_detail_repo.dart';
 import 'package:mangamint/repositories/manga_list_repo.dart';
 import 'package:mangamint/repositories/popular_repo.dart';
 import 'package:mangamint/repositories/recommended_repo.dart';
-import 'package:mangamint/screens/home_screens/index_home.dart';
+import 'package:mangamint/repositories/terbaru_repo.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  // ignore: invalid_use_of_visible_for_testing_member
+  SharedPreferences.setMockInitialValues({});
   runApp(MyApp());
 }
 
@@ -45,6 +49,8 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<PopularBloc>(
             create: (_) => PopularBloc(PopularRepo()),
+          ),BlocProvider<TerbaruBloc>(
+            create: (_) => TerbaruBloc(TerbaruRepo()),
           ),
 //          ChangeNotifierProvider<RecommendedRepo>(
 //            create: (context) => RecommendedRepo(),

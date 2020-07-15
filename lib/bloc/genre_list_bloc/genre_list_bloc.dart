@@ -13,7 +13,22 @@ class GenreListBloc extends Bloc<GenreListEvent, GenreListState> {
   Stream<GenreListState> mapEventToState(
     GenreListEvent event,
   ) async* {
+    final currentState = state;
     if(event is FetchGenreList){
+      try{
+        if(currentState is InitialGenreListState){
+          yield GenreListLoadingState();
+          List<GeneListModel>list = await _genreListRepo.getGenreList();
+          yield GenreListLoadedState(genreList: list);
+        }
+        if(currentState is GenreListLoadedState){
+          yield GenreListLoadedState(genreList: currentState.genreList);
+        }
+      }catch(e){
+        yield GenreListFailureState(msg: e.toString());
+      }
+    }
+    if(event is RefreshGenreList){
       yield GenreListLoadingState();
       try{
         List<GeneListModel>list = await _genreListRepo.getGenreList();

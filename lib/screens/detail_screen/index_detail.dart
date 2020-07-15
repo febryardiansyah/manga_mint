@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mangamint/bloc/manga_detail_bloc/bloc.dart';
+import 'package:mangamint/components/loading_dialog.dart';
 import 'package:mangamint/screens/detail_screen/manga_detail_screen.dart';
 
 class IndexDetail extends StatefulWidget {
@@ -26,7 +27,7 @@ class _IndexDetailState extends State<IndexDetail> {
     return BlocBuilder<MangaDetailBloc,MangaDetailState>(
       builder: (context, state){
         if(state is MangaDetailLoadingState){
-          return Center(child: CircularProgressIndicator(),);
+          return LoadingDialog();
         }else if(state is MangaDetailLoadedState){
           return MangaDetailScreen(data:state.data);
         }else if(state is MangaDetailFailureState){

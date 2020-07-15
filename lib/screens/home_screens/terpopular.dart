@@ -7,7 +7,7 @@ import 'package:mangamint/components/item_small.dart';
 import 'package:mangamint/components/my_shimmer.dart';
 import 'package:mangamint/constants/base_color.dart';
 
-class Terpopular extends StatelessWidget {
+class TerpopularCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -37,6 +37,9 @@ class Terpopular extends StatelessWidget {
                     subtitle: data.chapter,
                     bottom: data.update,
                     thumb: data.thumb,
+                    onTap: (){
+                      Navigator.pushNamed(context, '/detailmanga',arguments: data.endpoint);
+                    },
                   );
                 },
               ),

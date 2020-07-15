@@ -13,11 +13,27 @@ class RecomendedBloc extends Bloc<RecomendedEvent, RecomendedState> {
   Stream<RecomendedState> mapEventToState(
     RecomendedEvent event,
   ) async* {
-    if(event is RecomendedEvent){
-      yield RecommendedLoadingState();
+    final currentState = state;
+    if(event is FetchRecommended){
       try{
+        if(currentState is InitialRecomendedState){
+          yield RecommendedLoadingState();
+          List<RecommendedList> list = await _recommendedRepo.getRecomended();
+          yield  RecommendedLoadedState(recommendedList: list);
+        }
+        if(currentState is RecommendedLoadedState){
+         yield RecommendedLoadedState(recommendedList: currentState.recommendedList);
+        }
+
+      }catch(e){
+        yield RecomendedFailureState(msg: e.toString());
+      }
+    }
+    if(event is RefreshRecommended){
+      try{
+        yield RecommendedLoadingState();
         List<RecommendedList> list = await _recommendedRepo.getRecomended();
-        yield RecommendedLoadedState(recommendedList: list);
+        yield  RecommendedLoadedState(recommendedList: list);
       }catch(e){
         yield RecomendedFailureState(msg: e.toString());
       }

@@ -1,14 +1,15 @@
 import 'package:equatable/equatable.dart';
 
 class ChapterModel{
-  String title;
+  String title,chapter_endpoint;
   List<ChapterImage>chapterImage;
 
-  ChapterModel({this.title, this.chapterImage});
+  ChapterModel({this.title, this.chapterImage,this.chapter_endpoint});
 
   factory ChapterModel.fromJson(Map<String,dynamic>json){
     return ChapterModel(
       title: json['title'],
+      chapter_endpoint: json['chapter_endpoint'],
       chapterImage: List<ChapterImage>.from(json['chapter_image'].map((json) => ChapterImage.fromMap(json)))
     );
   }

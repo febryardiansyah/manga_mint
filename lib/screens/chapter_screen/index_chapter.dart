@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mangamint/bloc/chapter_bloc/bloc.dart';
+import 'package:mangamint/components/loading_dialog.dart';
 import 'package:mangamint/screens/chapter_screen/chapter_screen.dart';
 
 class IndexChapter extends StatefulWidget {
@@ -26,7 +27,7 @@ class _IndexChapterState extends State<IndexChapter> {
     return BlocBuilder<ChapterBlocBloc,ChapterBlocState>(
       builder: (context,state){
         if(state is ChapterLoadingState){
-          return Center(child: CircularProgressIndicator(),);
+          return LoadingDialog();
         }else if(state is ChapterLoadedState){
           return ChapterScreen(data: state.data,);
         }else if(state is ChapterFailureState){

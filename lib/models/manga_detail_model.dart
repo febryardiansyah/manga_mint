@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
 class MangaDetailModel{
-  String title,thumb,status,released,type,author,
+  String title,thumb,status,type,author,
   updated_on,posted_on,synopsis;
-  double score;
+  num score,released;
   List<Genres>genreList;
   List<ChapterList>chapterList;
 
@@ -16,8 +16,16 @@ class MangaDetailModel{
     return MangaDetailModel(
       title: json['title'],
       thumb: json['thumb'],
+      type: json['type'],
+      author: json['author'],
+      posted_on: json['posted_on'],
+      released: json['released'],
+      score: json['score'],
+      status: json['status'],
+      synopsis: json['synopsis'],
+      updated_on: json['updated_on'],
       genreList: List<Genres>.from(json['genre_list'].map((item) => Genres.fromMap(item))),
-      chapterList: List<ChapterList>.from(json['chapter'].map((item)=>ChapterList.fromMap(item)))
+      chapterList: List<ChapterList>.from(json['chapter'].map((item)=>ChapterList.fromMap(item))),
     );
   }
 
