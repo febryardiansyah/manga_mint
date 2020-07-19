@@ -11,7 +11,6 @@ class ChapterRepo{
     if(response.statusCode == 200){
       final res = json.decode(response.body);
       ChapterModel data = ChapterModel.fromJson(res);
-      print(data.chapterImage[0].chapter_image_link);
       return data;
     }else{
       throw Exception('failed Fetch');

@@ -26,7 +26,7 @@ class TerpopularCategory extends StatelessWidget {
             return SizedBox(
               height: 180,
               child: ListView.builder(
-                itemCount: state.popularList.length,
+                itemCount: state.popularList.getRange(0, 30).length,
                 shrinkWrap: true,
                 physics: ClampingScrollPhysics(),
                 scrollDirection: Axis.horizontal,

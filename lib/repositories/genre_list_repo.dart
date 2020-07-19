@@ -16,3 +16,17 @@ class GenreListRepo {
     }
   }
 }
+
+class MangaByGenreRepo{
+  Future<List<MangaByGenreModel>>getManga({String genre,int page})async{
+    final response = await ApiService.api.get(BaseUrl+'genres/$genre$page');
+    if (response.statusCode == 200) {
+      var res = json.decode(response.body)['manga_list'];
+      List<MangaByGenreModel>list = List<MangaByGenreModel>.from(res.map((item) => MangaByGenreModel.fromJson(item)));
+      print(page);
+      return list;
+    }else{
+      throw Exception('Failed Fetch');
+    }
+  }
+}

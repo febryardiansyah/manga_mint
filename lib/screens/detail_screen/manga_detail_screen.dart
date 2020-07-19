@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mangamint/bloc/manga_detail_bloc/bloc.dart';
 import 'package:mangamint/constants/base_color.dart';
+import 'package:mangamint/helper/hive/hive_manga_model.dart';
+import 'package:mangamint/helper/hive/hive_service.dart';
 import 'package:mangamint/models/manga_detail_model.dart';
 import 'package:mangamint/screens/chapter_screen/index_chapter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,10 +20,9 @@ class MangaDetailScreen extends StatefulWidget {
 }
 
 class _MangaDetailScreenState extends State<MangaDetailScreen> {
-
   MangaDetailModel get data => widget.data;
   bool isReversed = false;
-
+  var hiveBox = Hive.box('manga');
   void _sortByName(){
     if(isReversed == false){
       setState(() {
@@ -113,8 +116,18 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                       ),
                       IconButton(
                         icon: Icon(Icons.bookmark_border,color: Colors.white,),
-                        onPressed: (){},
-                      )
+                        onPressed: (){
+                          final data = HiveMangaModel(
+                            title: widget.data.title,
+                            type: widget.data.type,
+                            thumb: widget.data.thumb,
+                          );
+                          if(hiveBox.containsKey(widget.data.thumb)){
+                            hiveBox.delete(widget.data.thumb);
+                          }
+                          hiveBox.add(data);
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -182,7 +195,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
     return Row(
       children: [
         Text('$key : \t',style: TextStyle(fontSize: 17),),
-        Text(value.length > 15 ? '${value.substring(0,15)}..':value,style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold),)
+        Text(value.length > 25 ? '${value.substring(0,25)}..':value,style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold),)
       ],
     );
   }
@@ -282,7 +295,6 @@ class ScoreStar extends StatelessWidget {
 class ChapterList extends StatefulWidget {
   final MangaDetailModel data;
   bool isReversed;
-  bool isOpened = false;
 
   ChapterList(this.data,this.isReversed);
 
@@ -290,8 +302,19 @@ class ChapterList extends StatefulWidget {
   _ChapterListState createState() => _ChapterListState();
 }
 class _ChapterListState extends State<ChapterList> {
+  bool isOpened = false;
   bool get isReversed => widget.isReversed;
-
+  void _checkOpen()async{
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      isOpened = pref.getBool('isOpened'??false);
+    });
+  }
+  @override
+  void initState() {
+    super.initState();
+    _checkOpen();
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -314,7 +337,7 @@ class _ChapterListState extends State<ChapterList> {
               onTap: ()async{
                 final SharedPreferences pref = await SharedPreferences.getInstance();
                 pref.setBool('isOpened', true);
-                pref.setString('chapterId', widget.data.chapterList[i].chapter_endpoint);
+//                pref.setString('chapterId', widget.data.chapterList[i].chapter_endpoint);
                 Navigator.pushNamed(context, '/chapter',arguments:
                 widget.data.chapterList[i].chapter_endpoint);
               },

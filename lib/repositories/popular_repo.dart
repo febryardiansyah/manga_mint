@@ -10,7 +10,8 @@ class PopularRepo{
     if(response.statusCode == 200){
       var res = json.decode(response.body)['manga_list'];
       List<PopularTerbaruModel> list = List<PopularTerbaruModel>.from(res.map((json) => PopularTerbaruModel.fromJson(json)));
-      print(list[0].type);
+      print(page);
+      print(list[0].title);
       return list;
     }else{
       throw Exception('Failed Fetch');

@@ -33,7 +33,8 @@ class GenreListHome extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   child: InkWell(
                     onTap: (){
-                      print(state.genreList[i].title + ' tapped');
+                      Navigator.pushNamed(context, '/mangabygenre',arguments: state.genreList[i]
+                      .endpoint);
                     },
                     child: Container(
                       color: BaseColor.red,

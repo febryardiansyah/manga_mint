@@ -26,23 +26,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-//  MangaListBloc _mangaListBloc;
-//  final ScrollController _scrollController = ScrollController();
-//  final _scrollThreshold = 200.0;
-//
-//  MangaListStateLoaded get state => widget._state;
-//  @override
-//  void initState() {
-//    super.initState();
-//    _scrollController.addListener(() {
-//      final maxScroll = _scrollController.position.maxScrollExtent;
-//      final currentScroll = _scrollController.position.pixels;
-//      if(maxScroll - currentScroll <= _scrollThreshold){
-//        _mangaListBloc = BlocProvider.of<MangaListBloc>(context);
-//        _mangaListBloc.add(FetchManga());
-//      }
-//    });
-//  }
   RecomendedBloc _recomendedBloc;
   GenreListBloc _genreListBloc;
   PopularBloc _popularBloc;
@@ -68,12 +51,16 @@ class _HomeScreenState extends State<HomeScreen> {
             MyCarousel(),
             _rowTitle(
               title: 'Popular',
-              seemore: (){},
+              seemore: (){
+                Navigator.pushNamed(context, '/popular');
+              },
               child: TerpopularCategory()
             ),
             _rowTitle(
                 title: 'Terbaru',
-                seemore: (){},
+                seemore: (){
+                  Navigator.pushNamed(context, '/terbaru');
+                },
                 child: TerbaruCategory()
             ),
             _categoryTitle('Genre'),

@@ -28,7 +28,7 @@ class TerbaruBloc extends Bloc<TerbaruEvent, TerbaruState> {
     int page = 1;
     final currentState = state;
     if(event is FetchTerbaru && !_hasReachedMax(currentState)){
-     yield* _fethTerbaruEventToState(currentState, page);
+     yield* _fetchTerbaruEventToState(currentState, page);
     }
     if(event is InitialTerbaruEvent){
       yield* _initialTerbaruEventToState(currentState, page);
@@ -38,15 +38,15 @@ class TerbaruBloc extends Bloc<TerbaruEvent, TerbaruState> {
     }
   }
 
-  Stream<TerbaruState> _fethTerbaruEventToState(TerbaruState currentState,int page)async*{
+  Stream<TerbaruState> _fetchTerbaruEventToState(TerbaruState currentState,int page)async*{
     try{
       if(currentState is InitialTerbaruState){
         yield TerbaruLoadingState();
-        final List<PopularTerbaruModel> list = await _terbaruRepo.getTerbaru(page: page);
+        final List<PopularTerbaruModel> list = await _terbaruRepo.getTerbaru(page: 2);
         yield TerbaruLoadedState(terbaruList: list,hasReachedMax: false,page: page+=1);
       }
       if(currentState is TerbaruLoadedState){
-        final List<PopularTerbaruModel> list = await _terbaruRepo.getTerbaru(page: page+=1);
+        final List<PopularTerbaruModel> list = await _terbaruRepo.getTerbaru(page: currentState.page);
         yield list.isEmpty ? currentState.copyWith(hasReachedMax: true):
         TerbaruLoadedState(terbaruList: currentState.terbaruList+list,hasReachedMax: false,page:
         currentState.page+=1);
@@ -63,7 +63,8 @@ class TerbaruBloc extends Bloc<TerbaruEvent, TerbaruState> {
         yield TerbaruLoadedState(terbaruList: list,hasReachedMax: false,page: page+=1);
       }
       if(currentState is TerbaruLoadedState){
-        yield TerbaruLoadedState(terbaruList: currentState.terbaruList,hasReachedMax: false,page: page);
+        yield TerbaruLoadedState(terbaruList: currentState.terbaruList,hasReachedMax: false,page:
+        currentState.page == page ?page+1:currentState.page);
       }
     }catch(e){
       yield TerbaruFailureState(msg: e.toString());

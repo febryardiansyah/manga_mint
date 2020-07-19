@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mangamint/bloc/terbaru_bloc/bloc.dart';
+import 'package:mangamint/components/build_error.dart';
 import 'package:mangamint/components/item_big.dart';
 import 'package:mangamint/components/my_shimmer.dart';
 import 'package:mangamint/constants/base_color.dart';
@@ -23,7 +24,7 @@ class TerbaruCategory extends StatelessWidget {
           }else if (state is TerbaruLoadedState) {
             var mystate = state.terbaruList;
             return ItemBig(
-              itemCount: mystate.length - 31,
+              itemCount: mystate.getRange(0, 16).length,
               itemBuilder: (context,i){
                 var index = mystate[i];
                 return ItemBigChild(
@@ -38,6 +39,8 @@ class TerbaruCategory extends StatelessWidget {
                 );
               },
             );
+          }else if(state is TerbaruFailureState){
+            return Scaffold(body: BuildError(msg: state.msg,),);
           }
           return Container();
         },

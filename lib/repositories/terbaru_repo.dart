@@ -10,7 +10,8 @@ class TerbaruRepo{
     if(response.statusCode == 200){
       var res = json.decode(response.body)['manga_list'];
       List<PopularTerbaruModel>list = List<PopularTerbaruModel>.from(res.map((json) => PopularTerbaruModel.fromJson(json)));
-      print(list[0].title+' terbaru');
+      print(list[0].title +' terbaru');
+      print(page);
       return list;
     }else{
       throw Exception('failed Fetch');

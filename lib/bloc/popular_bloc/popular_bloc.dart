@@ -43,7 +43,7 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
     try{
       if(currentState is InitialPopularState){
         yield PopularLoadingState();
-        List<PopularTerbaruModel>list = await _popularRepo.getPopular(page: page);
+        List<PopularTerbaruModel>list = await _popularRepo.getPopular(page: 2);
         yield PopularLoadedState(popularList: list,hasReachedMax: false,page: page+=1);
       }
       if(currentState is PopularLoadedState){
@@ -61,10 +61,11 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
       if(currentState is InitialPopularState){
         yield PopularLoadingState();
         List<PopularTerbaruModel>list = await _popularRepo.getPopular(page: page);
-        yield PopularLoadedState(popularList: list);
+        yield PopularLoadedState(popularList: list,hasReachedMax: false,page: page+=1);
       }
       if(currentState is PopularLoadedState){
-        yield PopularLoadedState(popularList: currentState.popularList);
+        yield PopularLoadedState(popularList: currentState.popularList,hasReachedMax: false,page:
+        currentState.page == page ?page+1:currentState.page);
       }
     }catch(e){
       yield PopularFailureState(msg: e.toString());
@@ -76,7 +77,7 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
     try{
       if(currentState is PopularLoadedState){
         List<PopularTerbaruModel>list = await _popularRepo.getPopular(page: page);
-        yield PopularLoadedState(popularList: list);
+        yield PopularLoadedState(popularList: list,hasReachedMax: false,page: page+=1);
       }
     }catch(e){
       yield PopularFailureState(msg: e.toString());

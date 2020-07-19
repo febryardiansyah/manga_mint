@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mangamint/constants/base_color.dart';
 import 'package:mangamint/repositories/recommended_repo.dart';
 import 'package:mangamint/screens/home_screens/home_screen.dart';
+import 'package:mangamint/screens/lainnya_screen/lainnya_screen.dart';
 import 'package:mangamint/screens/list_manga_screen/index_manga_list.dart';
 import 'package:mangamint/screens/tersimpan_screen/tersimpan_screen.dart';
 import 'package:provider/provider.dart';
@@ -13,13 +14,14 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  List<Widget>_children = [
+  List<Widget> _children = [
     HomeScreen(),
     indexMangaLIst(),
     TersimpanScreen(),
-    HomeScreen(),
+    LainnyaScreen()
   ];
   int index = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,13 +30,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
         selectedIndex: index,
         onSelectTab: _onTapTapped,
         theme: FFNavigationBarTheme(
-          barBackgroundColor: BaseColor.red,
-          selectedItemBackgroundColor: BaseColor.green,
-          selectedItemIconColor: Colors.white,
-          selectedItemLabelColor: BaseColor.black,
-          unselectedItemIconColor: BaseColor.grey2,
-          unselectedItemLabelColor: BaseColor.grey2
-        ),
+            barBackgroundColor: BaseColor.red,
+            selectedItemBackgroundColor: BaseColor.green,
+            selectedItemIconColor: Colors.white,
+            selectedItemLabelColor: BaseColor.black,
+            unselectedItemIconColor: BaseColor.grey2,
+            unselectedItemLabelColor: BaseColor.grey2),
         items: [
           FFNavigationBarItem(
             iconData: Icons.home,
@@ -56,7 +57,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
       ),
     );
   }
-  void _onTapTapped(value){
+
+  void _onTapTapped(value) {
     setState(() {
       index = value;
     });

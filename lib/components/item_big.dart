@@ -8,12 +8,13 @@ import 'package:mangamint/helper/color_manga_type.dart';
 
 class ItemBig extends StatelessWidget {
   final itemCount, itemBuilder;
-
-  const ItemBig({Key key, this.itemCount, this.itemBuilder}) : super(key: key);
+  final ScrollController controller;
+  const ItemBig({Key key, this.itemCount, this.itemBuilder,this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      controller: controller,
       shrinkWrap: true,
       physics: ClampingScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

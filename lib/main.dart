@@ -2,29 +2,38 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:mangamint/bloc/bloc.dart';
 import 'package:mangamint/bloc/chapter_bloc/bloc.dart';
 import 'package:mangamint/bloc/genre_list_bloc/bloc.dart';
 import 'package:mangamint/bloc/manga_detail_bloc/bloc.dart';
+import 'package:mangamint/bloc/mangabygenre_bloc/bloc.dart';
+import 'package:mangamint/bloc/manhuamanhwa/bloc.dart';
 import 'package:mangamint/bloc/popular_bloc/bloc.dart';
 import 'package:mangamint/bloc/recomended_bloc/bloc.dart';
+import 'package:mangamint/bloc/search_bloc/bloc.dart';
 import 'package:mangamint/bloc/terbaru_bloc/bloc.dart';
 import 'package:mangamint/components/bottom_nav_bar.dart';
 import 'package:mangamint/constants/base_color.dart';
+import 'package:mangamint/helper/hive/hive_manga_model.dart';
 import 'package:mangamint/helper/routes.dart';
 import 'package:mangamint/repositories/chapter_repo.dart';
 import 'package:mangamint/repositories/genre_list_repo.dart';
 import 'package:mangamint/repositories/manga_detail_repo.dart';
 import 'package:mangamint/repositories/manga_list_repo.dart';
+import 'package:mangamint/repositories/manhua_manhwa_repo.dart';
 import 'package:mangamint/repositories/popular_repo.dart';
 import 'package:mangamint/repositories/recommended_repo.dart';
+import 'package:mangamint/repositories/search_repo.dart';
 import 'package:mangamint/repositories/terbaru_repo.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-void main() {
-  // ignore: invalid_use_of_visible_for_testing_member
-  SharedPreferences.setMockInitialValues({});
+import 'package:path_provider/path_provider.dart' as path_provider;
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  final directory = await path_provider.getApplicationDocumentsDirectory();
+  Hive.init(directory.path);
+  Hive.openBox('manga');
+  Hive.registerAdapter(HiveMangaModelAdapter());
   runApp(MyApp());
 }
 
@@ -49,8 +58,18 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<PopularBloc>(
             create: (_) => PopularBloc(PopularRepo()),
-          ),BlocProvider<TerbaruBloc>(
+          ),
+          BlocProvider<TerbaruBloc>(
             create: (_) => TerbaruBloc(TerbaruRepo()),
+          ),
+          BlocProvider<SearchBlocBloc>(
+            create: (_) => SearchBlocBloc(SearchRepo()),
+          ),
+          BlocProvider<MangaByGenreBloc>(
+            create: (_) => MangaByGenreBloc(MangaByGenreRepo()),
+          ),
+          BlocProvider<ManhuamanhwaBloc>(
+            create: (_) => ManhuamanhwaBloc(ManhuaManhwaRepo()),
           ),
 //          ChangeNotifierProvider<RecommendedRepo>(
 //            create: (context) => RecommendedRepo(),
@@ -64,7 +83,8 @@ class MyApp extends StatelessWidget {
             ),
             appBarTheme: AppBarTheme(
               actionsIconTheme: IconThemeData(color: BaseColor.black),
-              color: Colors.white
+              color: Colors.white,
+              iconTheme: IconThemeData(color: BaseColor.red)
             )
           ),
           debugShowCheckedModeBanner: false,
