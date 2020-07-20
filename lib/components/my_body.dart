@@ -9,7 +9,7 @@ class MyBody extends StatelessWidget {
   final bool showRefresh,showSearch;
 
   const MyBody({Key key, this.title, this.body, this.onRefresh,this.bottomAppBar,
-  this.showRefresh = true,this.onSearch,this.showSearch = true}) : super(key: key);
+  this.showRefresh = true,this.onSearch,this.showSearch = true,}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -41,11 +41,11 @@ class _TersimpanScreenState extends State<TersimpanScreen> {
     return WatchBoxBuilder(
       box: mangaBox,
       builder: (context,manga) =>
-      ListView.builder(
+      manga.isEmpty?Center(child: Text('kosong mint xixixi'),):ListView.builder(
         itemCount: mangaBox.length,
         itemBuilder: (context,i){
           HiveMangaModel mangaModel = mangaBox.getAt(i);
-          print(mangaModel.title);
+          print(mangaBox.length);
           return ListTile(
             title: Text(mangaModel.title.length > 20 ? '${mangaModel.title}..':mangaModel.title),
             subtitle: Text(mangaModel.type,style: TextStyle(color: mangaTypeColor(mangaModel.type)),),

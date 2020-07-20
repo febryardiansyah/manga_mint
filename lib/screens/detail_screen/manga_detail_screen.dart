@@ -22,7 +22,25 @@ class MangaDetailScreen extends StatefulWidget {
 class _MangaDetailScreenState extends State<MangaDetailScreen> {
   MangaDetailModel get data => widget.data;
   bool isReversed = false;
-  var hiveBox = Hive.box('manga');
+  var mangaBox = Hive.box('manga');
+  bool _isSaved = false;
+  HiveMangaModel mangaModel;
+  void _checkIsSaved(){
+    int count = mangaBox.length;
+    for(int i=0;i<count;i++){
+      mangaModel = mangaBox.getAt(i);
+      if(mangaModel.manga_endpoint == widget.data.manga_endpoint){
+        setState(() {
+          _isSaved = true;
+        });
+        break;
+      }else{
+        setState(() {
+          _isSaved = false;
+        });
+      }
+    }
+  }
   void _sortByName(){
     if(isReversed == false){
       setState(() {
@@ -33,6 +51,11 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
         isReversed = false;
       });
     }
+  }
+  @override
+  void initState() {
+    super.initState();
+    _checkIsSaved();
   }
   @override
   Widget build(BuildContext context) {
@@ -114,19 +137,42 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                           });
                         },
                       ),
-                      IconButton(
-                        icon: Icon(Icons.bookmark_border,color: Colors.white,),
-                        onPressed: (){
-                          final data = HiveMangaModel(
-                            title: widget.data.title,
-                            type: widget.data.type,
-                            thumb: widget.data.thumb,
-                          );
-                          if(hiveBox.containsKey(widget.data.thumb)){
-                            hiveBox.delete(widget.data.thumb);
+                      WatchBoxBuilder(
+                        box: mangaBox,
+                        builder:(context,manga) => IconButton(
+                          icon: Icon(Icons.bookmark_border,color:_isSaved?BaseColor.red: Colors.white,),
+                          onPressed: (){
+                            final data = HiveMangaModel(
+                              title: widget.data.title,
+                              type: widget.data.type,
+                              thumb: widget.data.thumb,
+                              manga_endpoint: widget.data.manga_endpoint,
+                            );
+                            int count = manga.length;
+                            var deleted = false;
+                              for(int i=0;i<count;i++){
+                                mangaModel = mangaBox.getAt(i);
+                                print(mangaModel.manga_endpoint + '\t from Local');
+                                print(widget.data.manga_endpoint + '\t from API');
+                                if(mangaModel.manga_endpoint == widget.data.manga_endpoint){
+                                  print('exist');
+                                  mangaBox.deleteAt(i);
+                                  deleted = true;
+                                  setState(() {
+                                    _isSaved = false;
+                                  });
+                                  break;
+                                }
+                              }
+                          if(!deleted){
+                            print('not exist');
+                            mangaBox.add(data);
+                            setState(() {
+                              _isSaved = true;
+                            });
                           }
-                          hiveBox.add(data);
-                        },
+                          },
+                        ),
                       ),
                     ],
                   ),

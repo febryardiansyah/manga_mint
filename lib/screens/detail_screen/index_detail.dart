@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 import 'package:mangamint/bloc/manga_detail_bloc/bloc.dart';
 import 'package:mangamint/components/loading_dialog.dart';
 import 'package:mangamint/screens/detail_screen/manga_detail_screen.dart';
@@ -15,10 +16,12 @@ class IndexDetail extends StatefulWidget {
 
 class _IndexDetailState extends State<IndexDetail> {
   MangaDetailBloc _mangaDetailBloc;
+  var manga = Hive.box('manga');
   String get endpoint => widget.endpoint;
   @override
   void initState() {
     super.initState();
+//    manga.put('endpoint', endpoint);
     _mangaDetailBloc = BlocProvider.of<MangaDetailBloc>(context);
     _mangaDetailBloc.add(FetchMangaDetail(endpoint));
   }

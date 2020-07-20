@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class MangaDetailModel{
   String title,thumb,status,type,author,
-  updated_on,posted_on,synopsis;
+  updated_on,posted_on,synopsis,manga_endpoint;
   num score,released;
   List<Genres>genreList;
   List<ChapterList>chapterList;
@@ -10,7 +10,7 @@ class MangaDetailModel{
 
   MangaDetailModel({this.title, this.thumb, this.status, this.released,
       this.type, this.author, this.updated_on, this.posted_on, this.synopsis,
-      this.score, this.genreList, this.chapterList});
+      this.score, this.genreList, this.chapterList,this.manga_endpoint});
 
   factory MangaDetailModel.fromJson(Map<String,dynamic>json){
     return MangaDetailModel(
@@ -24,6 +24,7 @@ class MangaDetailModel{
       status: json['status'],
       synopsis: json['synopsis'],
       updated_on: json['updated_on'],
+      manga_endpoint: json['manga_endpoint'],
       genreList: List<Genres>.from(json['genre_list'].map((item) => Genres.fromMap(item))),
       chapterList: List<ChapterList>.from(json['chapter'].map((item)=>ChapterList.fromMap(item))),
     );
