@@ -15,6 +15,8 @@ import 'package:mangamint/bloc/search_bloc/bloc.dart';
 import 'package:mangamint/bloc/terbaru_bloc/bloc.dart';
 import 'package:mangamint/components/bottom_nav_bar.dart';
 import 'package:mangamint/constants/base_color.dart';
+import 'package:mangamint/helper/hive/hive_chapter_model.dart';
+import 'package:mangamint/helper/hive/hive_chapter_opened_model.dart';
 import 'package:mangamint/helper/hive/hive_manga_model.dart';
 import 'package:mangamint/helper/routes.dart';
 import 'package:mangamint/repositories/chapter_repo.dart';
@@ -28,12 +30,17 @@ import 'package:mangamint/repositories/search_repo.dart';
 import 'package:mangamint/repositories/terbaru_repo.dart';
 import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   final directory = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(directory.path);
   Hive.openBox('manga');
+  Hive.openBox('chapter');
+  Hive.openBox('lastOpenedChapter');
+  Hive.registerAdapter(HiveChapterModelAdapter());
   Hive.registerAdapter(HiveMangaModelAdapter());
+  Hive.registerAdapter(HiveChapterOpenedModelAdapter());
   runApp(MyApp());
 }
 

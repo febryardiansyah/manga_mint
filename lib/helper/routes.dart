@@ -27,7 +27,7 @@ Route generateRoute(RouteSettings routeSettings){
     case '/detailmanga':
       return pageRoute(routeSettings: routeSettings,builder: IndexDetail(endpoint: args,));
     case '/chapter':
-      return pageRoute(routeSettings: routeSettings,builder: IndexChapter(enpoint: args,),isFullscreen: true);
+      return pageRoute(routeSettings: routeSettings,builder: IndexChapter(endpoint: args,),isFullscreen: true);
     case '/popular':
       return pageRoute(routeSettings: routeSettings,builder: TerpopulerScreen());
     case '/terbaru':

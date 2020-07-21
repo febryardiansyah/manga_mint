@@ -6,6 +6,7 @@ import 'package:mangamint/components/my_body.dart';
 import 'package:mangamint/constants/base_color.dart';
 import 'package:mangamint/helper/color_manga_type.dart';
 import 'package:mangamint/helper/hive/hive_manga_model.dart';
+import 'package:toast/toast.dart';
 
 class TersimpanScreen extends StatefulWidget {
   @override
@@ -47,12 +48,41 @@ class _TersimpanScreenState extends State<TersimpanScreen> {
           HiveMangaModel mangaModel = mangaBox.getAt(i);
           print(mangaBox.length);
           return ListTile(
+            onTap: (){
+              Navigator.pushNamed(context, '/detailmanga',arguments:
+              mangaModel.manga_endpoint);
+            },
             title: Text(mangaModel.title.length > 20 ? '${mangaModel.title}..':mangaModel.title),
             subtitle: Text(mangaModel.type,style: TextStyle(color: mangaTypeColor(mangaModel.type)),),
-            trailing: IconButton(
-              icon: Icon(Icons.delete,color: BaseColor.red,),
+            trailing: FlatButton(
+              child: Text('Hapus',style: TextStyle(color: BaseColor.red),),
+              shape: RoundedRectangleBorder(
+                side: BorderSide(width: 1,color: BaseColor.red)
+              ),
               onPressed: (){
-                mangaBox.deleteAt(i);
+                showDialog(context: context,
+                builder: (nani){
+                  return AlertDialog(
+                    title: Text('Apa kamu yakin ingin menghapusnya ?'),
+                    actions: [
+                      FlatButton(
+                        child: Text('Batal'),
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+                      ),
+                      FlatButton(
+                        child: Text('Yakin dong !!',style: TextStyle(color: BaseColor.red),),
+                        onPressed: (){
+                          mangaBox.deleteAt(i);
+                          Navigator.pop(context);
+                          Toast.show('Berhasil Dihapus', context,duration: Toast.LENGTH_LONG
+                              ,gravity: Toast.CENTER);
+                        },
+                      )
+                    ],
+                  );
+                });
               },
             ),
             leading: Image.network(

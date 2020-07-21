@@ -2,13 +2,16 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mangamint/constants/base_color.dart';
-import 'package:mangamint/helper/sqflite/chapter_local_model.dart';
-import 'package:mangamint/helper/sqflite/database_access.dart';
+import 'package:mangamint/helper/hive/hive_chapter_model.dart';
+import 'package:mangamint/helper/hive/hive_chapter_opened_model.dart';
 import 'package:mangamint/models/chapter_model.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 class ChapterScreen extends StatefulWidget {
   final ChapterModel data;
@@ -27,8 +30,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   bool _isHorizontal = false;
   int _group = 1;
-  DatabaseAccess _databaseAccess;
-
+  var chapterBox = Hive.box('chapter');
 
   void checkReadingMode()async{
     SharedPreferences prefs = await _prefs;
@@ -43,6 +45,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
         _group =1 ;
       });
     }
+
   }
   @override
   void initState() {
@@ -69,52 +72,60 @@ class _ChapterScreenState extends State<ChapterScreen> {
           ],
         ),
         body: Scrollbar(
-          child: Stack(
-            children: [
-              PhotoViewGallery.builder(
-                enableRotation: true,
-                pageController: PageController(
-                    initialPage: widget.currentIndex,
-                ),
-                itemCount: widget.data.chapterImage.length,
-                scrollPhysics: BouncingScrollPhysics(),
-                builder: (context, i) {
-                  return PhotoViewGalleryPageOptions(
-                    controller: PhotoViewController(),
-                      imageProvider: NetworkImage(
-                          widget.data.chapterImage[i].chapter_image_link),
-                    minScale:  PhotoViewComputedScale.contained * 1,
-                      maxScale: PhotoViewComputedScale.covered * 2.0,
-                      initialScale: PhotoViewComputedScale.contained * 1.0,
-                      heroAttributes: PhotoViewHeroAttributes(
-                          tag: widget.data.chapterImage[i].number));
-                },
-                scrollDirection:_isHorizontal? Axis.horizontal:Axis.vertical,
-                onPageChanged: (value){
-                  setState(() {
-                    widget.currentIndex = value;
-                  });
-                },
-                loadFailedChild: Text('Failed Load image'),
-                loadingBuilder: (context, event) => Center(
-                  child: Container(
-                    width: 20.0,
-                    height: 20.0,
-                    child: CircularProgressIndicator(
-                      value: event == null
-                          ? 0
-                          : event.cumulativeBytesLoaded /
-                              event.expectedTotalBytes,
+          child: WatchBoxBuilder(
+            box: chapterBox,
+            builder:(context,chapter) => Stack(
+              children: [
+                PhotoViewGallery.builder(
+                  enableRotation: true,
+                  pageController: PageController(
+                      initialPage: widget.currentIndex,
+                  ),
+                  itemCount: widget.data.chapterImage.length,
+                  scrollPhysics: BouncingScrollPhysics(),
+                  builder: (context, i) {
+                    return PhotoViewGalleryPageOptions(
+                      controller: PhotoViewController(),
+                        imageProvider: NetworkImage(
+                            widget.data.chapterImage[i].chapter_image_link),
+                      minScale:  PhotoViewComputedScale.contained * 1,
+                        maxScale: PhotoViewComputedScale.covered * 2.0,
+                        initialScale: PhotoViewComputedScale.contained * 1.0,
+                        heroAttributes: PhotoViewHeroAttributes(
+                            tag: widget.data.chapterImage[i].number));
+                  },
+                  scrollDirection:_isHorizontal? Axis.horizontal:Axis.vertical,
+                  onPageChanged: (int value){
+                    final data = HiveChapterModel(
+                      index: value,
+                      endpoint: widget.data.chapter_endpoint
+                    );
+                   chapter.add(data);
+                    setState(() {
+                      widget.currentIndex = value;
+                    });
+                  },
+                  loadFailedChild: Text('Failed Load image'),
+                  loadingBuilder: (context, event) => Center(
+                    child: Container(
+                      width: 20.0,
+                      height: 20.0,
+                      child: CircularProgressIndicator(
+                        value: event == null
+                            ? 0
+                            : event.cumulativeBytesLoaded /
+                                event.expectedTotalBytes,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                bottom: 0,
-                left: 10,
-                child: Text('${widget.currentIndex+1} /${widget.data.chapterImage.length} ',style: TextStyle(color: Colors.white,fontSize: 20),),
-              )
-            ],
+                Positioned(
+                  bottom: 0,
+                  left: 10,
+                  child: Text('${widget.currentIndex+1} /${widget.data.chapterImage.length} ',style: TextStyle(color: Colors.white,fontSize: 20),),
+                )
+              ],
+            ),
           ),
         ));
   }
