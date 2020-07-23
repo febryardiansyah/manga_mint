@@ -20,6 +20,7 @@ class ItemSmall extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(left: 10),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -44,7 +45,7 @@ class ItemSmall extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Text(subtitle,style: TextStyle(color: BaseColor.red),),
-            Text(bottom,style: TextStyle(color: BaseColor.grey1),)
+            Expanded(child: Text(bottom,style: TextStyle(color: BaseColor.grey1),))
           ],
         ),
       ),

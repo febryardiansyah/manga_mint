@@ -7,7 +7,6 @@ import 'package:mangamint/screens/detail_screen/index_detail.dart';
 import 'package:mangamint/screens/result_screen/manga_by_genre_screen.dart';
 import 'package:mangamint/screens/result_screen/result_screen.dart';
 import 'package:mangamint/screens/result_screen/search_screen.dart';
-import 'package:mangamint/screens/result_screen/terbaru_screen.dart';
 import 'package:mangamint/screens/result_screen/terpopuler_screen.dart';
 
 MaterialPageRoute pageRoute({RouteSettings routeSettings,Widget builder,bool isFullscreen = false}){
@@ -30,8 +29,6 @@ Route generateRoute(RouteSettings routeSettings){
       return pageRoute(routeSettings: routeSettings,builder: IndexChapter(endpoint: args,),isFullscreen: true);
     case '/popular':
       return pageRoute(routeSettings: routeSettings,builder: TerpopulerScreen());
-    case '/terbaru':
-      return pageRoute(routeSettings: routeSettings,builder: TerbaruScreen());
     case '/search':
       return pageRoute(routeSettings: routeSettings,builder: SearchScreen(),isFullscreen: true);
     case '/result':

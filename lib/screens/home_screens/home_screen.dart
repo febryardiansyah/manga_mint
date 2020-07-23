@@ -8,7 +8,6 @@ import 'package:mangamint/bloc/bloc.dart';
 import 'package:mangamint/bloc/genre_list_bloc/bloc.dart';
 import 'package:mangamint/bloc/popular_bloc/bloc.dart';
 import 'package:mangamint/bloc/recomended_bloc/bloc.dart';
-import 'package:mangamint/bloc/terbaru_bloc/bloc.dart';
 import 'package:mangamint/components/my_body.dart';
 import 'package:mangamint/constants/base_color.dart';
 import 'package:mangamint/models/manga_list_model.dart';
@@ -29,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   RecomendedBloc _recomendedBloc;
   GenreListBloc _genreListBloc;
   PopularBloc _popularBloc;
-  TerbaruBloc _terbaruBloc;
+  MangaListBloc _mangaListBloc;
   @override
   void initState() {
     super.initState();
@@ -57,10 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
               child: TerpopularCategory()
             ),
             _rowTitle(
+              showMore: false,
                 title: 'Terbaru',
-                seemore: (){
-                  Navigator.pushNamed(context, '/terbaru');
-                },
                 child: TerbaruCategory()
             ),
             _categoryTitle('Genre'),
@@ -77,16 +74,16 @@ class _HomeScreenState extends State<HomeScreen> {
       style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
     );
   }
-  Widget _rowTitle({String title,Function seemore,Widget child}){
+  Widget _rowTitle({String title,Function seemore,Widget child,bool showMore = true}){
     return Column(
       children: [
         Row(
           children: [
             _categoryTitle(title),
             Spacer(),
-            InkWell(
+            showMore?InkWell(
               onTap: seemore,
-                child: Text('lihat selengkapnya')),
+                child: Text('lihat selengkapnya')):Center(),
           ],
         ),
         child
@@ -100,13 +97,13 @@ class _HomeScreenState extends State<HomeScreen> {
     _popularBloc.add(InitialFetchPopular());
     _genreListBloc = BlocProvider.of<GenreListBloc>(context);
     _genreListBloc.add(FetchGenreList());
-    _terbaruBloc = BlocProvider.of<TerbaruBloc>(context);
-    _terbaruBloc.add(InitialTerbaruEvent());
+    _mangaListBloc = BlocProvider.of(context)..add(FetchManga());
+
   }
   void _onRefresh(){
     _recomendedBloc.add(RefreshRecommended());
     _popularBloc.add(RefreshPopular());
-    _terbaruBloc.add(RefreshTerbaru());
     _genreListBloc.add(RefreshGenreList());
+    _mangaListBloc.add(FetchManga());
   }
 }

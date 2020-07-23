@@ -67,9 +67,9 @@ class _TerpopulerScreenState extends State<TerpopulerScreen> {
                       },
                       child: ItemSmall(
                         title: data.title,
-                        subtitle: data.chapter,
-                        bottom: data.update,
-                        thumb: data.thumb,
+                        subtitle: data.type ?? '',
+                        bottom: data.upload_on  ?? '',
+                        thumb: data.thumb ?? '',
                         onTap: (){
                           Navigator.pushNamed(context, '/detailmanga',arguments: data.endpoint);
                         },

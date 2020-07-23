@@ -71,13 +71,12 @@ class _ChapterScreenState extends State<ChapterScreen> {
             )
           ],
         ),
-        body: Scrollbar(
-          child: WatchBoxBuilder(
-            box: chapterBox,
-            builder:(context,chapter) => Stack(
+        body: WatchBoxBuilder(
+          box: chapterBox,
+          builder:(context,chapter) => Scrollbar(
+            child: Stack(
               children: [
                 PhotoViewGallery.builder(
-                  enableRotation: true,
                   pageController: PageController(
                       initialPage: widget.currentIndex,
                   ),
@@ -85,7 +84,6 @@ class _ChapterScreenState extends State<ChapterScreen> {
                   scrollPhysics: BouncingScrollPhysics(),
                   builder: (context, i) {
                     return PhotoViewGalleryPageOptions(
-                      controller: PhotoViewController(),
                         imageProvider: NetworkImage(
                             widget.data.chapterImage[i].chapter_image_link),
                       minScale:  PhotoViewComputedScale.contained * 1,

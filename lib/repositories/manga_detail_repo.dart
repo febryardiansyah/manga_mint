@@ -6,7 +6,7 @@ import 'package:mangamint/service/api_service.dart';
 
 class MangaDetailRepo{
   Future<MangaDetailModel>getMangaDetail(String endpoint)async{
-    final response = await ApiService.api.get(BaseUrl+'manga/$endpoint');
+    final response = await ApiService.api.get(BaseUrl+'manga/detail/$endpoint');
 
     if(response.statusCode == 200){
       final res = json.decode(response.body);

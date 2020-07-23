@@ -7,7 +7,7 @@ abstract class SearchBlocEvent extends Equatable{
   List<Object> get props => [];
 }
 class FetchSearch extends SearchBlocEvent{
-  final String query;
+  String query;
 
   FetchSearch({this.query});
   @override

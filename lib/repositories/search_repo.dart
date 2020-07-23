@@ -8,9 +8,10 @@ class SearchRepo{
   Future<List<SearchModel>>searchManga({String query})async{
     final response = await ApiService.api.get(BaseUrl+'cari/$query');
     if(response.statusCode == 200){
-      var res = json.decode(response.body)['manga_list'];
+      print(response.body);
+      var res = json.decode(response.body);
       List<SearchModel> list = List<SearchModel>.from(res.map((json) => SearchModel.fromJson(json)));
-      print(list[0].title);
+      print(list[0].type);
       return list;
     }
   }

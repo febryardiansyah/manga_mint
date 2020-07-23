@@ -62,7 +62,8 @@ class _ManhuaCategoryState extends State<ManhuaCategory> {
             );
           }else if(state is ManhuaLoadedState){
             return Scrollbar(
-              child: ListView.builder(
+              child: ListView.separated(
+                separatorBuilder: (context,index)=>Divider(color: BaseColor.grey2,),
                 itemCount: state.hasReachedMax
                     ? state.list.length
                     : state.list.length + 1,
@@ -78,30 +79,34 @@ class _ManhuaCategoryState extends State<ManhuaCategory> {
                     title: Text(state.list[i].title.length > 20
                         ? '${state.list[i].title.substring(0, 20)}..'
                         : state.list[i].title),
-                    subtitle: Text(state.list[i].type,style: TextStyle(
-                        color: mangaTypeColor(state.list[i].type)
-                    ),),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(state.list[i].type,style: TextStyle(
+                            color: mangaTypeColor(state.list[i].type)
+                        ),),
+                        Text(state.list[i].updated_on,style: TextStyle(
+                            color: BaseColor.grey1)
+                        ),
+                      ],
+                    ),
+                    trailing: SizedBox(
+                      height: 100.h,
+                      width: 200.w,
+                      child: Text(
+                        state.list[i].chapter,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                     leading: Image.network(
                       state.list[i].thumb,
                       height: MediaQuery.of(context).size.height,
                       width: 200.w,
                       fit: BoxFit.cover,
                     ),
-                    trailing: SizedBox(
-                      height: 100.h,
-                      width: 200.w,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Icon(Icons.star,color: BaseColor.orange,),
-                          Text(state.list[i].score.toString(),style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: _ratingColor(state.list[i].score)
-                          ),),
-                        ],
-                      ),
-                    ),
+
                   );
                 },
               ),
@@ -112,15 +117,5 @@ class _ManhuaCategoryState extends State<ManhuaCategory> {
       ),
     );
   }
-  Color _ratingColor(num score){
-    if(score < 7){
-      return BaseColor.red;
-    }else if (score >= 7 && score <= 8.5) {
-      return BaseColor.green;
-    }else if(score >= 8.6){
-      return BaseColor.orange;
-    }else{
-      return BaseColor.grey1;
-    }
-  }
+
 }

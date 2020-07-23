@@ -41,16 +41,25 @@ class _ResultScreenState extends State<ResultScreen> {
           }else if (state is SearchLoadedState) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
+              child: ListView.separated(
+                separatorBuilder: (context,index)=>Divider(color: BaseColor.grey2,),
                 itemCount: state.searchList.length,
                 itemBuilder: (context,i){
                   return ListTile(
                     onTap: (){
                       Navigator.pushNamed(context, '/detailmanga',arguments: state.searchList[i].endpoint);
                     },
-                    subtitle: Text(state.searchList[i].type,style: TextStyle(
-                        color: mangaTypeColor(state.searchList[i].type)
-                    ),),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(state.searchList[i].type,style: TextStyle(
+                            color: mangaTypeColor(state.searchList[i].type)
+                        ),),
+                        Text(state.searchList[i].updated_on,style: TextStyle(
+                            color: BaseColor.grey1
+                        ),),
+                      ],
+                    ),
                     leading: Image.network(
                       state.searchList[i].thumb,
                       height: MediaQuery.of(context).size.height,
@@ -60,21 +69,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     title: Text(state.searchList[i].title.length >= 30 ?'${
                         state.searchList[i].title.substring(0,30)
                     }..':state.searchList[i].title),
-                    trailing: SizedBox(
-                      height: 100.h,
-                      width: 200.w,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Icon(Icons.star,color: BaseColor.orange,),
-                          Text(state.searchList[i].score.toString(),style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: _ratingColor(state.searchList[i].score)
-                          ),),
-                        ],
-                      ),
-                    ),
+
                   );
                 },
               ),
@@ -87,15 +82,5 @@ class _ResultScreenState extends State<ResultScreen> {
       ),
     );
   }
-  Color _ratingColor(num score){
-    if(score < 7){
-      return BaseColor.red;
-    }else if (score >= 7 && score <= 8.5) {
-      return BaseColor.green;
-    }else if(score >= 8.6){
-      return BaseColor.orange;
-    }else{
-      return BaseColor.grey1;
-    }
-  }
+
 }

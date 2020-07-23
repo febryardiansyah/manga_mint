@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mangamint/bloc/terbaru_bloc/bloc.dart';
+import 'package:mangamint/bloc/bloc.dart';
 import 'package:mangamint/components/build_error.dart';
 import 'package:mangamint/components/item_big.dart';
 import 'package:mangamint/components/my_shimmer.dart';
@@ -11,9 +11,9 @@ class TerbaruCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: BlocBuilder<TerbaruBloc,TerbaruState>(
+      child: BlocBuilder<MangaListBloc,MangaListState>(
         builder: (context,state){
-          if (state is TerbaruLoadingState) {
+          if (state is MangaListLoadingState) {
             return MyShimmer(
               child: Container(
                 color: BaseColor.red,
@@ -21,8 +21,8 @@ class TerbaruCategory extends StatelessWidget {
                 height: 100,
               ),
             );
-          }else if (state is TerbaruLoadedState) {
-            var mystate = state.terbaruList;
+          }else if (state is MangaListStateLoaded) {
+            var mystate = state.mangaList;
             return ItemBig(
               itemCount: mystate.getRange(0, 16).length,
               itemBuilder: (context,i){
@@ -35,11 +35,11 @@ class TerbaruCategory extends StatelessWidget {
                   thumb: index.thumb,
                   type: index.type,
                   chapter: index.chapter,
-                  update: index.update,
+                  update: index.updated_on,
                 );
               },
             );
-          }else if(state is TerbaruFailureState){
+          }else if(state is MangaListStateFailure){
             return Scaffold(body: BuildError(msg: state.msg,),);
           }
           return Container();

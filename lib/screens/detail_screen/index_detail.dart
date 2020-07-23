@@ -16,12 +16,10 @@ class IndexDetail extends StatefulWidget {
 
 class _IndexDetailState extends State<IndexDetail> {
   MangaDetailBloc _mangaDetailBloc;
-  var manga = Hive.box('manga');
   String get endpoint => widget.endpoint;
   @override
   void initState() {
     super.initState();
-//    manga.put('endpoint', endpoint);
     _mangaDetailBloc = BlocProvider.of<MangaDetailBloc>(context);
     _mangaDetailBloc.add(FetchMangaDetail(endpoint));
   }

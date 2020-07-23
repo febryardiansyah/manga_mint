@@ -1,16 +1,6 @@
 # mangamint
 
-A new Flutter application.
+still on progress, if you wonder what API i use on this project you can check [here](https://github.com/febryardiansyah/manga-api)
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Also, if you wonder how this app looks like you can check prototype of this App here
+[MangaMint Protyotype](https://www.figma.com/proto/tEwOEwAIycAuWfMOCffG3w/customDesign?node-id=591%3A3&scaling=scale-down)

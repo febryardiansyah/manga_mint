@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:mangamint/bloc/genre_list_bloc/bloc.dart';
-import 'package:mangamint/models/popular_terbaru_model.dart';
+import 'package:mangamint/models/popular_model.dart';
 import 'package:mangamint/repositories/popular_repo.dart';
 import 'package:rxdart/rxdart.dart';
 import './bloc.dart';
@@ -43,11 +43,11 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
     try{
       if(currentState is InitialPopularState){
         yield PopularLoadingState();
-        List<PopularTerbaruModel>list = await _popularRepo.getPopular(page: 2);
+        List<PopularModel>list = await _popularRepo.getPopular(page: 2);
         yield PopularLoadedState(popularList: list,hasReachedMax: false,page: page+=1);
       }
       if(currentState is PopularLoadedState){
-        List<PopularTerbaruModel>list = await _popularRepo.getPopular(page: currentState.page);
+        List<PopularModel>list = await _popularRepo.getPopular(page: currentState.page);
         yield list.isEmpty ? currentState.copyWith(hasReachedMax: true):
         PopularLoadedState(hasReachedMax: false,popularList: currentState.popularList+list,page: currentState.page+=1);
       }
@@ -60,7 +60,7 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
     try{
       if(currentState is InitialPopularState){
         yield PopularLoadingState();
-        List<PopularTerbaruModel>list = await _popularRepo.getPopular(page: page);
+        List<PopularModel>list = await _popularRepo.getPopular(page: page);
         yield PopularLoadedState(popularList: list,hasReachedMax: false,page: page+=1);
       }
       if(currentState is PopularLoadedState){
@@ -76,7 +76,7 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
     yield PopularLoadingState();
     try{
       if(currentState is PopularLoadedState){
-        List<PopularTerbaruModel>list = await _popularRepo.getPopular(page: page);
+        List<PopularModel>list = await _popularRepo.getPopular(page: page);
         yield PopularLoadedState(popularList: list,hasReachedMax: false,page: page+=1);
       }
     }catch(e){

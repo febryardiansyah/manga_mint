@@ -96,21 +96,6 @@ class _MangaByGenreScreenState extends State<MangaByGenreScreen> {
                     title: Text(state.list[i].title.length >= 30 ?'${
                         state.list[i].title.substring(0,30)
                     }..':state.list[i].title),
-                    trailing: SizedBox(
-                      height: 100.h,
-                      width: 200.w,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Icon(Icons.star,color: BaseColor.orange,),
-                          Text(state.list[i].score.toString(),style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: _ratingColor(state.list[i].score)
-                          ),),
-                        ],
-                      ),
-                    ),
                   );
                 },
               ),
@@ -121,15 +106,5 @@ class _MangaByGenreScreenState extends State<MangaByGenreScreen> {
       ),
     );
   }
-  Color _ratingColor(num score){
-    if(score < 7){
-      return BaseColor.red;
-    }else if (score >= 7 && score <= 8.5) {
-      return BaseColor.green;
-    }else if(score >= 8.6){
-      return BaseColor.orange;
-    }else{
-      return BaseColor.grey1;
-    }
-  }
+
 }

@@ -26,7 +26,7 @@ class TerpopularCategory extends StatelessWidget {
             return SizedBox(
               height: 180,
               child: ListView.builder(
-                itemCount: state.popularList.getRange(0, 30).length,
+                itemCount: state.popularList.getRange(0, 10).length,
                 shrinkWrap: true,
                 physics: ClampingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
@@ -34,8 +34,8 @@ class TerpopularCategory extends StatelessWidget {
                   var data = state.popularList[i];
                   return ItemSmall(
                     title: data.title,
-                    subtitle: data.chapter,
-                    bottom: data.update,
+                    subtitle: data.type,
+                    bottom: data.upload_on,
                     thumb: data.thumb,
                     onTap: (){
                       Navigator.pushNamed(context, '/detailmanga',arguments: data.endpoint);

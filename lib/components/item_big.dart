@@ -21,7 +21,7 @@ class ItemBig extends StatelessWidget {
           crossAxisCount: 3,
           mainAxisSpacing: 10,
           crossAxisSpacing: 10,
-          childAspectRatio: 0.5),
+          childAspectRatio: 0.45),
       itemCount: itemCount,
       itemBuilder: itemBuilder,
     );
@@ -42,57 +42,58 @@ class ItemBigChild extends StatelessWidget {
     ScreenUtil.init();
     return InkWell(
       onTap: onTap,
-      child: Container(
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                  child: ImageCacheLoading(
-                    imgUrl: thumb,
-                    imageBuilder: (context,imgProvider){
-                      return Container(
-                        height: 450.h,
-                        width: size.width,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(image: imgProvider)
-                        ),
-                      );
-                    },
-                  ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                child: ImageCacheLoading(
+                  imgUrl: thumb,
+                  imageBuilder: (context,imgProvider){
+                    return Container(
+                      height: 450.h,
+                      width: size.width,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(image: imgProvider,fit: BoxFit.cover),
+                      ),
+                    );
+                  },
                 ),
-                Positioned(
-                  bottom: 10,
-                  left: 0,
-                  child: Container(
-                    height: 80.h,
-                    width: 200.w,
-                    color: mangaTypeColor(type),
-                    child: Center(
-                        child: Text(
-                      type,
-                      style: TextStyle(color: Colors.white),
-                    )),
-                  ),
-                )
-              ],
-            ),
-            Text(
-              title.length > 15 ? '${title.substring(0, 15)}..' : title,
-              style: TextStyle(fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            Text(
-              chapter,
-              style: TextStyle(color: BaseColor.green),
-            ),
-            Text(
+              ),
+              Positioned(
+                bottom: 10,
+                left: 0,
+                child: Container(
+                  height: 80.h,
+                  width: 200.w,
+                  color: mangaTypeColor(type),
+                  child: Center(
+                      child: Text(
+                    type,
+                    style: TextStyle(color: Colors.white),
+                  )),
+                ),
+              )
+            ],
+          ),
+          Text(
+            title.length > 20 ? '${title.substring(0, 20)}..' : title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Text(
+            chapter,
+            style: TextStyle(color: BaseColor.green),
+          ),
+          Expanded(
+            child: Text(
               update,
               style: TextStyle(color: BaseColor.grey1),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

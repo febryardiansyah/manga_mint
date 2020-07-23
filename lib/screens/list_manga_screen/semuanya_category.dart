@@ -4,8 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mangamint/bloc/bloc.dart';
 import 'package:mangamint/components/bottom_loader.dart';
-import 'package:mangamint/components/item_big.dart';
-import 'package:mangamint/components/item_small.dart';
 import 'package:mangamint/components/my_shimmer.dart';
 import 'package:mangamint/constants/base_color.dart';
 import 'package:mangamint/helper/color_manga_type.dart';
@@ -46,7 +44,7 @@ class _SemuanyaCategoryState extends State<SemuanyaCategory> {
                 itemCount: 10,
                 physics: ClampingScrollPhysics(),
                 shrinkWrap: true,
-                itemBuilder: (context,i){
+                itemBuilder: (context, i) {
                   return ListTile(
                     leading: Container(
                       height: 100.h,
@@ -55,7 +53,7 @@ class _SemuanyaCategoryState extends State<SemuanyaCategory> {
                     ),
                     title: Container(
                       height: 100.h,
-                      width:MediaQuery.of(context).size.width,
+                      width: MediaQuery.of(context).size.width,
                       color: BaseColor.red,
                     ),
                   );
@@ -64,7 +62,8 @@ class _SemuanyaCategoryState extends State<SemuanyaCategory> {
             );
           } else if (state is MangaListStateLoaded) {
             return Scrollbar(
-              child: ListView.builder(
+              child: ListView.separated(
+                separatorBuilder: (context,index)=>Divider(color: BaseColor.grey2,),
                 itemCount: state.hasReachedMax
                     ? state.mangaList.length
                     : state.mangaList.length + 1,
@@ -73,16 +72,28 @@ class _SemuanyaCategoryState extends State<SemuanyaCategory> {
                   return i >= state.mangaList.length
                       ? BottomLoader()
                       : ListTile(
-                    onTap: (){
-                      Navigator.pushNamed(context, '/detailmanga',arguments:
-                      state.mangaList[i].endpoint);
-                    },
+                          onTap: () {
+                            Navigator.pushNamed(context, '/detailmanga',
+                                arguments: state.mangaList[i].endpoint);
+                          },
                           title: Text(state.mangaList[i].title.length > 20
                               ? '${state.mangaList[i].title.substring(0, 20)}..'
                               : state.mangaList[i].title),
-                          subtitle: Text(state.mangaList[i].type,style: TextStyle(
-                            color: mangaTypeColor(state.mangaList[i].type)
-                          ),),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                state.mangaList[i].type,
+                                style: TextStyle(
+                                    color: mangaTypeColor(state.mangaList[i].type)),
+                              ),
+                              Text(
+                                state.mangaList[i].updated_on,
+                                style: TextStyle(
+                                    color: BaseColor.grey1),
+                              ),
+                            ],
+                          ),
                           leading: Image.network(
                             state.mangaList[i].thumb,
                             height: MediaQuery.of(context).size.height,
@@ -92,16 +103,11 @@ class _SemuanyaCategoryState extends State<SemuanyaCategory> {
                           trailing: SizedBox(
                             height: 100.h,
                             width: 200.w,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Icon(Icons.star,color: BaseColor.orange,),
-                                Text(state.mangaList[i].score.toString(),style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: _ratingColor(state.mangaList[i].score)
-                                ),),
-                              ],
+                            child: Text(
+                              state.mangaList[i].chapter,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         );
@@ -113,16 +119,5 @@ class _SemuanyaCategoryState extends State<SemuanyaCategory> {
         },
       ),
     );
-  }
-  Color _ratingColor(num score){
-    if(score < 7){
-      return BaseColor.red;
-    }else if (score >= 7 && score <= 8.5) {
-      return BaseColor.green;
-    }else if(score >= 8.6){
-      return BaseColor.orange;
-    }else{
-      return BaseColor.grey1;
-    }
   }
 }

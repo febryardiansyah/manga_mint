@@ -13,10 +13,11 @@ class MangaModel {
 }
 
 class MangaListModel extends Equatable{
-  String title,thumb,type,endpoint;
+  String title,thumb,type,endpoint,updated_on,chapter;
   num score;
 
-  MangaListModel({this.title, this.thumb, this.type, this.score, this.endpoint});
+  MangaListModel({this.title, this.thumb, this.type, this.score, this.endpoint,
+  this.updated_on,this.chapter});
 
   @override
   List<Object> get props => [title,thumb,type,score,endpoint];
@@ -26,6 +27,8 @@ class MangaListModel extends Equatable{
       title: json['title'],
       thumb: json['thumb'],
       type: json['type'],
+      chapter: json['chapter'],
+      updated_on: json['updated_on'],
       score: json['score'],
       endpoint: json['endpoint']
     );

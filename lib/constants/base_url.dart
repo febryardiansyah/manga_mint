@@ -1,2 +1,2 @@
 
-const String BaseUrl = 'http://10.0.2.2:3000/api/';
+const String BaseUrl = 'https://mangaindo-api.herokuapp.com/api/';

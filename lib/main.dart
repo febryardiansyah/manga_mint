@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,8 +11,6 @@ import 'package:mangamint/bloc/manhuamanhwa/bloc.dart';
 import 'package:mangamint/bloc/popular_bloc/bloc.dart';
 import 'package:mangamint/bloc/recomended_bloc/bloc.dart';
 import 'package:mangamint/bloc/search_bloc/bloc.dart';
-import 'package:mangamint/bloc/terbaru_bloc/bloc.dart';
-import 'package:mangamint/components/bottom_nav_bar.dart';
 import 'package:mangamint/constants/base_color.dart';
 import 'package:mangamint/helper/hive/hive_chapter_model.dart';
 import 'package:mangamint/helper/hive/hive_chapter_opened_model.dart';
@@ -27,7 +24,6 @@ import 'package:mangamint/repositories/manhua_manhwa_repo.dart';
 import 'package:mangamint/repositories/popular_repo.dart';
 import 'package:mangamint/repositories/recommended_repo.dart';
 import 'package:mangamint/repositories/search_repo.dart';
-import 'package:mangamint/repositories/terbaru_repo.dart';
 import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
@@ -66,9 +62,6 @@ class MyApp extends StatelessWidget {
           BlocProvider<PopularBloc>(
             create: (_) => PopularBloc(PopularRepo()),
           ),
-          BlocProvider<TerbaruBloc>(
-            create: (_) => TerbaruBloc(TerbaruRepo()),
-          ),
           BlocProvider<SearchBlocBloc>(
             create: (_) => SearchBlocBloc(SearchRepo()),
           ),
@@ -78,9 +71,6 @@ class MyApp extends StatelessWidget {
           BlocProvider<ManhuamanhwaBloc>(
             create: (_) => ManhuamanhwaBloc(ManhuaManhwaRepo()),
           ),
-//          ChangeNotifierProvider<RecommendedRepo>(
-//            create: (context) => RecommendedRepo(),
-//          )
         ],
         child: MaterialApp(
           theme: ThemeData(
