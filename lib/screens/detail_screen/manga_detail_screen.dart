@@ -26,6 +26,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
   var lastBox = Hive.box('lastOpenedChapter');
   HiveChapterOpenedModel lastModel;
   String _chapterEndpoint = '';
+  int _totalChapter;
 
   void _checkIsSaved() {
     int count = mangaBox.length;
@@ -56,7 +57,10 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
     }
   }
 
-  void _checkOpen() {
+  void _checkLastChapter() {
+    setState(() {
+      _totalChapter = data.chapterList.length-1;
+    });
     int count = lastBox.length;
     for (int i = 0; i < count; i++) {
       lastModel = lastBox.getAt(i);
@@ -77,12 +81,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
   void initState() {
     super.initState();
     _checkIsSaved();
-    _checkOpen();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+    _checkLastChapter();
   }
 
   @override
@@ -296,11 +295,11 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
       children: [
         _detailRow(key: 'Status', value: data.status),
         _detailRow(key: 'Author', value: data.author),
-        _detailRow(key: 'Type', value: data.type)
+        _detailRow(key: 'Type', value: data.type),
+        _detailRow(key: 'Total Chapter',value: _totalChapter.toString()),
       ],
     );
   }
-
   Widget _detailRow({String key, String value}) {
     return Row(
       children: [
@@ -316,42 +315,6 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
     );
   }
 
-//  Widget _score({MangaDetailModel data}) {
-//    final size = MediaQuery.of(context).size;
-//    return Container(
-//      width: size.width,
-//      height: 100.h,
-//      child: Row(
-//        children: [
-//          ClipRRect(
-//            borderRadius: BorderRadius.circular(5),
-//            child: Container(
-//              height: 30,
-//              width: 30,
-//              color: BaseColor.orange,
-//              child: Icon(
-//                Icons.star,
-//                color: Colors.white,
-//              ),
-//            ),
-//          ),
-//          SizedBox(
-//            width: 10,
-//          ),
-//          Text(
-//            'Score',
-//            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-//          ),
-//          Spacer(),
-//          SizedBox(
-//            width: 10,
-//          ),
-//          ScoreStar(data),
-//          Text(data.score.toString())
-//        ],
-//      ),
-//    );
-//  }
 
   Widget _genre(MangaDetailModel data) {
     return SizedBox(
@@ -390,74 +353,6 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
   }
 }
 
-//class ScoreStar extends StatelessWidget {
-//  final MangaDetailModel _mangaDetailModel;
-//
-//  ScoreStar(this._mangaDetailModel);
-//
-//  num get score => _mangaDetailModel.score;
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    if (score < 7) {
-//      return _buildRowStar(
-//        icon1: BaseColor.orange,
-//      );
-//    } else if (score == 7 || score < 8) {
-//      return _buildRowStar(
-//        icon1: BaseColor.orange,
-//        icon2: BaseColor.orange,
-//      );
-//    } else if (score == 8 || score < 9) {
-//      return _buildRowStar(
-//        icon1: BaseColor.orange,
-//        icon2: BaseColor.orange,
-//        icon3: BaseColor.orange,
-//      );
-//    } else if (score == 9 || score < 9) {
-//      return _buildRowStar(
-//          icon1: BaseColor.orange,
-//          icon2: BaseColor.orange,
-//          icon3: BaseColor.orange,
-//          icon4: BaseColor.orange);
-//    } else {
-//      return _buildRowStar(
-//          icon1: BaseColor.orange,
-//          icon2: BaseColor.orange,
-//          icon3: BaseColor.orange,
-//          icon4: BaseColor.orange,
-//          icon5: BaseColor.orange);
-//    }
-//  }
-//
-//  Widget _buildRowStar({icon1, icon2, icon3, icon4, icon5}) {
-//    return Row(
-//      children: [
-//        Icon(
-//          Icons.star,
-//          color: icon1 ?? BaseColor.grey2,
-//        ),
-//        Icon(
-//          Icons.star,
-//          color: icon2 ?? BaseColor.grey1,
-//        ),
-//        Icon(
-//          Icons.star,
-//          color: icon3 ?? BaseColor.grey1,
-//        ),
-//        Icon(
-//          Icons.star,
-//          color: icon4 ?? BaseColor.grey1,
-//        ),
-//        Icon(
-//          Icons.star,
-//          color: icon5 ?? BaseColor.grey1,
-//        ),
-//      ],
-//    );
-//  }
-//}
-
 class ChapterList extends StatefulWidget {
   final MangaDetailModel data;
   bool isReversed;
@@ -473,7 +368,7 @@ class _ChapterListState extends State<ChapterList> {
   var chapterBox = Hive.box('chapter');
   var mangaBox = Hive.box('manga');
   var lastBox = Hive.box('lastOpenedChapter');
-  int _isClicked = 0;
+  int _isClicked;
   HiveChapterOpenedModel lastModel;
 
   @override
@@ -548,10 +443,6 @@ class _ChapterListState extends State<ChapterList> {
       if(lastModel.manga_endpoint == widget.data.manga_endpoint){
         setState(() {
           _isClicked = lastModel.lastChapter;
-        });
-      }else{
-        setState(() {
-          _isClicked = widget.data.chapterList.length;
         });
       }
     }

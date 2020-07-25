@@ -10,3 +10,4 @@ abstract class MangaListEvent extends Equatable{
 
 class FetchManga extends MangaListEvent{}
 class InitialFetchMangaEvent extends MangaListEvent{}
+class RefreshMangaEvent extends MangaListEvent{}

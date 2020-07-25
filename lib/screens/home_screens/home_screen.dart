@@ -97,13 +97,13 @@ class _HomeScreenState extends State<HomeScreen> {
     _popularBloc.add(InitialFetchPopular());
     _genreListBloc = BlocProvider.of<GenreListBloc>(context);
     _genreListBloc.add(FetchGenreList());
-    _mangaListBloc = BlocProvider.of(context)..add(FetchManga());
+    _mangaListBloc = BlocProvider.of(context)..add(InitialFetchMangaEvent());
 
   }
   void _onRefresh(){
     _recomendedBloc.add(RefreshRecommended());
     _popularBloc.add(RefreshPopular());
     _genreListBloc.add(RefreshGenreList());
-    _mangaListBloc.add(FetchManga());
+    _mangaListBloc.add(InitialFetchMangaEvent());
   }
 }

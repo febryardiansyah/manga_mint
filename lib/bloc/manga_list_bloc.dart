@@ -35,6 +35,15 @@ class MangaListBloc extends Bloc<MangaListEvent, MangaListState> {
     if(event is InitialFetchMangaEvent){
       yield* _initialEventToState(currentState, page);
     }
+    if(event is RefreshMangaEvent){
+      yield MangaListLoadingState();
+      try{
+        final list = await _mangaListRepo.getMangaList(page: page);
+        yield MangaListStateLoaded(hasReachedMax: false,mangaList: list,page: page);
+      }catch(e){
+        yield MangaListStateFailure(msg: e.toString());
+      }
+    }
   }
   Stream<MangaListState> _fetchMangaToState(MangaListState currentState,int page)async*{
     try{

@@ -29,7 +29,6 @@ class _MangaByGenreScreenState extends State<MangaByGenreScreen> {
       _mangaByGenreBloc.add(FetchMangByGenre(endpoint: widget.endpoint));
     }
   }
-
   @override
   void initState() {
     super.initState();
@@ -78,9 +77,9 @@ class _MangaByGenreScreenState extends State<MangaByGenreScreen> {
               padding: const EdgeInsets.all(8.0),
               child: ListView.builder(
                 controller: _scrollController,
-                itemCount:state.hasReachedMax? state.list.length:state.list.length+1,
+                itemCount : state.hasReachedMax? state.list.length:state.list.length+1,
                 itemBuilder: (context,i){
-                  return i>= state.list.length?BottomLoader(): ListTile(
+                  return i >= state.list.length?BottomLoader(): ListTile(
                     onTap: (){
                       Navigator.pushNamed(context, '/detailmanga',arguments: state.list[i].endpoint);
                     },
@@ -99,6 +98,10 @@ class _MangaByGenreScreenState extends State<MangaByGenreScreen> {
                   );
                 },
               ),
+            );
+          }else if(state is MangaByGenreFailureState){
+            return Center(
+              child: Text('Kosong gan'),
             );
           }
           return Container();

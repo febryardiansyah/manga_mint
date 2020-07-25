@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
@@ -37,7 +38,7 @@ void main() async{
   Hive.registerAdapter(HiveChapterModelAdapter());
   Hive.registerAdapter(HiveMangaModelAdapter());
   Hive.registerAdapter(HiveChapterOpenedModelAdapter());
-  runApp(MyApp());
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((value) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {

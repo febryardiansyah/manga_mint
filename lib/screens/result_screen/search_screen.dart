@@ -16,7 +16,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: BaseColor.red,
+      backgroundColor: BaseColor.grey1,
       appBar: AppBar(
         elevation: 0,
         title: TextFormField(

@@ -23,75 +23,89 @@ class _MyCarouselState extends State<MyCarousel> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init();
-    return BlocBuilder<RecomendedBloc,RecomendedState>(
-      builder: (context,state){
-        if (state is RecommendedLoadingState) {
-          return MyShimmer(
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              child: Container(
-                height: 500.h,
-                width: MediaQuery.of(context).size.width,
-                color: BaseColor.red,
-              ),
-            ),
-          );
-        }else if (state is RecommendedLoadedState) {
-          return Column(
-            children: [
-              CarouselSlider(
-                items: state.recommendedList.map((e){
-                  return InkWell(
-                    onTap: (){
-                      Navigator.pushNamed(context, '/detailmanga',arguments:
-                      e.endpoint);
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      child: ImageCacheLoading(
-                        imgUrl: e.thumb,
-                        imageBuilder: (context,imgProvider){
-                          return Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 500.h,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: imgProvider,
-                                    fit: BoxFit.cover
-                                )
-                            ),
-                            child: Container(
-                              padding: EdgeInsets.all(8),
-                              child: Center(child: Text(e.title,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),)),
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.bottomCenter,
-                                      end: Alignment.center,
-                                      colors: [
-                                        BaseColor.black,
-                                        Colors.black.withOpacity(0.4)
-                                      ]
-                                  )
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  );
-                }).toList(),
-                options: CarouselOptions(
-                    autoPlay: true,
-                    enlargeCenterPage: true,
-                    aspectRatio: 2.0,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        _current = index;
-                      });
-                    }
+    return BlocConsumer<RecomendedBloc,RecomendedState>(
+      listener: (context,state){
+        if(state is RecomendedFailureState){
+          Scaffold.of(context)..hideCurrentSnackBar()
+              ..showSnackBar(SnackBar(
+                content: Row(
+                  children: [
+                    Icon(Icons.info_outline),
+                    Text('Belum beli paketan kah ?',style: TextStyle(color: Colors.white),),
+                  ],
+                ),
+                backgroundColor: BaseColor.green,
+              ));
+        }
+      },
+        builder: (context,state){
+          if (state is RecommendedLoadingState) {
+            return MyShimmer(
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                child: Container(
+                  height: 500.h,
+                  width: MediaQuery.of(context).size.width,
+                  color: BaseColor.red,
                 ),
               ),
+            );
+          }else if (state is RecommendedLoadedState) {
+            return Column(
+              children: [
+                CarouselSlider(
+                  items: state.recommendedList.map((e){
+                    return InkWell(
+                      onTap: (){
+                        Navigator.pushNamed(context, '/detailmanga',arguments:
+                        e.endpoint);
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        child: ImageCacheLoading(
+                          imgUrl: e.thumb,
+                          imageBuilder: (context,imgProvider){
+                            return Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 500.h,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: imgProvider,
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                              child: Container(
+                                padding: EdgeInsets.all(8),
+                                child: Center(child: Text(e.title,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),)),
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        begin: Alignment.bottomCenter,
+                                        end: Alignment.center,
+                                        colors: [
+                                          BaseColor.black,
+                                          Colors.black.withOpacity(0.4)
+                                        ]
+                                    )
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  options: CarouselOptions(
+                      autoPlay: true,
+                      enlargeCenterPage: true,
+                      aspectRatio: 2.0,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          _current = index;
+                        });
+                      }
+                  ),
+                ),
 //              Row(
 //                mainAxisAlignment: MainAxisAlignment.start,
 //                children: state.recommendedList.map((url) {
@@ -109,11 +123,15 @@ class _MyCarouselState extends State<MyCarousel> {
 //                  );
 //                }).toList(),
 //              ),
-            ],
-          );
-        }
-        return Container();
-      },
+              ],
+            );
+          }
+          if(state is RecomendedFailureState){
+            print(state.msg);
+            return Text('Cek internet mu euy atau tunggu nanti');
+          }
+          return Container();
+        },
     );
   }
 }

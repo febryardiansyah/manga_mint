@@ -44,8 +44,9 @@ class TerpopularCategory extends StatelessWidget {
                 },
               ),
             );
-          } else if (state is PopularFailureState) {
-            return BuildError(msg: state.msg,);
+          } else if(state is PopularFailureState){
+            print(state.msg);
+            return Text('Cek internet mu euy atau tunggu nanti');
           }
           return Container();
         },

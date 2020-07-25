@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -76,47 +77,81 @@ class _ChapterScreenState extends State<ChapterScreen> {
           builder:(context,chapter) => Scrollbar(
             child: Stack(
               children: [
-                PhotoViewGallery.builder(
-                  pageController: PageController(
+//                PhotoViewGallery.builder(
+//                  pageController: PageController(
+//                      initialPage: widget.currentIndex,
+//                  ),
+//                  itemCount: widget.data.chapterImage.length,
+//                  scrollPhysics: BouncingScrollPhysics(),
+//                  builder: (context, i) {
+//                    return PhotoViewGalleryPageOptions(
+//                        imageProvider: NetworkImage(
+//                            widget.data.chapterImage[i].chapter_image_link),
+//                      minScale:  PhotoViewComputedScale.contained * 1,
+//                        maxScale: PhotoViewComputedScale.covered * 2.0,
+//                        initialScale: PhotoViewComputedScale.contained * 1.0,
+//                        heroAttributes: PhotoViewHeroAttributes(
+//                            tag: widget.data.chapterImage[i].number));
+//                  },
+//                  scrollDirection:_isHorizontal? Axis.horizontal:Axis.vertical,
+//                  onPageChanged: (int value){
+//                    final data = HiveChapterModel(
+//                      index: value,
+//                      endpoint: widget.data.chapter_endpoint
+//                    );
+//                   chapter.add(data);
+//                    setState(() {
+//                      widget.currentIndex = value;
+//                    });
+//                  },
+//                  loadFailedChild: Text('Failed Load image'),
+//                  loadingBuilder: (context, event) => Center(
+//                    child: Container(
+//                      width: 20.0,
+//                      height: 20.0,
+//                      child: CircularProgressIndicator(
+//                        value: event == null
+//                            ? 0
+//                            : event.cumulativeBytesLoaded /
+//                                event.expectedTotalBytes,
+//                      ),
+//                    ),
+//                  ),
+//                ),
+              ExtendedImageGesturePageView.builder(
+                itemCount: widget.data.chapterImage.length,
+                  scrollDirection:_isHorizontal? Axis.horizontal:Axis.vertical,
+                controller: PageController(
                       initialPage: widget.currentIndex,
                   ),
-                  itemCount: widget.data.chapterImage.length,
-                  scrollPhysics: BouncingScrollPhysics(),
-                  builder: (context, i) {
-                    return PhotoViewGalleryPageOptions(
-                        imageProvider: NetworkImage(
-                            widget.data.chapterImage[i].chapter_image_link),
-                      minScale:  PhotoViewComputedScale.contained * 1,
-                        maxScale: PhotoViewComputedScale.covered * 2.0,
-                        initialScale: PhotoViewComputedScale.contained * 1.0,
-                        heroAttributes: PhotoViewHeroAttributes(
-                            tag: widget.data.chapterImage[i].number));
-                  },
-                  scrollDirection:_isHorizontal? Axis.horizontal:Axis.vertical,
-                  onPageChanged: (int value){
-                    final data = HiveChapterModel(
+                itemBuilder: (context,i){
+                  return ExtendedImage.network(widget.data.chapterImage[i].chapter_image_link,
+                  mode: ExtendedImageMode.gesture,
+                    initGestureConfigHandler: (state)=>GestureConfig(
+                      minScale: 0.9,
+                      animationMinScale: 0.7,
+                      maxScale: 3.0,
+                      animationMaxScale: 3.5,
+                      speed: 1.0,
+                      inertialSpeed: 100.0,
+                      initialScale: 1.0,
+                      inPageView: true,
+                      cacheGesture: false
+                    ),
+                  );
+                },
+                onPageChanged: (value){
+                  final data = HiveChapterModel(
                       index: value,
                       endpoint: widget.data.chapter_endpoint
-                    );
-                   chapter.add(data);
-                    setState(() {
-                      widget.currentIndex = value;
-                    });
-                  },
-                  loadFailedChild: Text('Failed Load image'),
-                  loadingBuilder: (context, event) => Center(
-                    child: Container(
-                      width: 20.0,
-                      height: 20.0,
-                      child: CircularProgressIndicator(
-                        value: event == null
-                            ? 0
-                            : event.cumulativeBytesLoaded /
-                                event.expectedTotalBytes,
-                      ),
-                    ),
-                  ),
-                ),
+                  );
+                  chapter.add(data);
+                  setState(() {
+                    widget.currentIndex = value;
+                  });
+                },
+                physics: BouncingScrollPhysics(),
+              ),
                 Positioned(
                   bottom: 0,
                   left: 10,
