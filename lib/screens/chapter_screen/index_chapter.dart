@@ -6,12 +6,7 @@ import 'package:mangamint/components/build_error.dart';
 import 'package:mangamint/components/loading_dialog.dart';
 import 'package:mangamint/helper/hive/hive_chapter_model.dart';
 import 'package:mangamint/helper/hive/hive_chapter_opened_model.dart';
-import 'package:mangamint/helper/routes.dart';
-import 'package:mangamint/helper/sqflite/chapter_local_model.dart';
-import 'package:mangamint/helper/sqflite/database_access.dart';
-import 'package:mangamint/models/chapter_model.dart';
 import 'package:mangamint/screens/chapter_screen/chapter_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class IndexChapter extends StatefulWidget {
   final String endpoint;

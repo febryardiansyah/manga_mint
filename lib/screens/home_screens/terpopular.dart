@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mangamint/bloc/popular_bloc/bloc.dart';
-import 'package:mangamint/components/build_error.dart';
 import 'package:mangamint/components/item_small.dart';
 import 'package:mangamint/components/my_shimmer.dart';
 import 'package:mangamint/constants/base_color.dart';

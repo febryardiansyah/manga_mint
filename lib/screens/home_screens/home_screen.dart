@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,14 +9,10 @@ import 'package:mangamint/bloc/popular_bloc/bloc.dart';
 import 'package:mangamint/bloc/recomended_bloc/bloc.dart';
 import 'package:mangamint/components/my_body.dart';
 import 'package:mangamint/constants/base_color.dart';
-import 'package:mangamint/models/manga_list_model.dart';
-import 'package:mangamint/repositories/recommended_repo.dart';
-import 'package:mangamint/screens/detail_screen/index_detail.dart';
 import 'package:mangamint/screens/home_screens/genre_list.dart';
 import 'package:mangamint/screens/home_screens/my_carousel.dart';
 import 'package:mangamint/screens/home_screens/terbaru.dart';
 import 'package:mangamint/screens/home_screens/terpopular.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

@@ -7,10 +7,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mangamint/constants/base_color.dart';
 import 'package:mangamint/helper/hive/hive_chapter_model.dart';
-import 'package:mangamint/helper/hive/hive_chapter_opened_model.dart';
 import 'package:mangamint/models/chapter_model.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:photo_view/photo_view_gallery.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 

@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mangamint/bloc/search_bloc/bloc.dart';
-import 'package:mangamint/components/item_big.dart';
-import 'package:mangamint/components/item_small.dart';
 import 'package:mangamint/components/my_body.dart';
 import 'package:mangamint/constants/base_color.dart';
 import 'package:mangamint/helper/color_manga_type.dart';

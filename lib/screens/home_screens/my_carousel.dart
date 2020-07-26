@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +7,6 @@ import 'package:mangamint/bloc/recomended_bloc/bloc.dart';
 import 'package:mangamint/components/image_cache_loading.dart';
 import 'package:mangamint/components/my_shimmer.dart';
 import 'package:mangamint/constants/base_color.dart';
-import 'package:mangamint/repositories/recommended_repo.dart';
-import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 
 class MyCarousel extends StatefulWidget {
   @override

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mangamint/constants/base_color.dart';
-import 'package:mangamint/screens/lainnya_screen/privacy.dart';
 
 class DetailLainnya extends StatelessWidget {
   final String title,body;

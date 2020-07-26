@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
 import 'package:mangamint/bloc/manga_detail_bloc/bloc.dart';
 import 'package:mangamint/components/build_error.dart';
 import 'package:mangamint/components/loading_dialog.dart';

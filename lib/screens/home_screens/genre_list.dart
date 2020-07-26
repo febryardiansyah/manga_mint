@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mangamint/bloc/genre_list_bloc/bloc.dart';
 import 'package:mangamint/components/my_shimmer.dart';
 import 'package:mangamint/constants/base_color.dart';
-import 'package:shimmer/shimmer.dart';
 
 class GenreListHome extends StatelessWidget {
   @override

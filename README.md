@@ -14,8 +14,11 @@
 MangaMint is manga reader application that provides manga and comic bahasa indonesia and currently
 available on android only, idk in the future will be available on ios or not
 
-## Api that i use on this Project
-[manga-api](https://github.com/febryardiansyah/manga-api)
+## Usage
+1. Download or clone this repository [manga-api](https://github.com/febryardiansyah/manga-api)
+    > git clone https://github.com/febryardiansyah/manga-api
+2. you have to deploy this api by yourself `(You can use heroku,vercel, or glitch)`
+2. change `const String BaseUrl = 'https://10.0.2.2:8000/api/';` (<manga_mint>/lib/constants/base_url.dart) to your API. ex: `example.herokuapp.com.com/api/`
 
 ## Prototype of This App
 [MangaMint Protyotype](https://www.figma.com/proto/tEwOEwAIycAuWfMOCffG3w/customDesign?node-id=591%3A3&scaling=scale-down)
@@ -58,6 +61,28 @@ $ flutter build appbundle
 $ flutter build apk
 
 ```
+## Dependencies that i use
+- http: ^0.12.1
+- bloc: ^5.0.1
+- flutter_bloc: ^5.0.1
+- google_fonts: ^1.1.0
+- equatable: ^1.2.0
+- rxdart: ^0.24.1
+- ff_navigation_bar: ^0.1.5
+- flutter_spinkit: ^4.1.2+1
+- shimmer: ^1.1.1
+- carousel_slider: ^2.2.1
+- flutter_screenutil: ^2.2.0
+- cached_network_image: ^2.2.0+1
+- photo_view: ^0.9.2
+- shared_preferences: ^0.5.8
+- path_provider: ^1.6.11
+- path: ^1.7.0
+- hive: ^1.4.1+1
+- hive_flutter: ^0.2.1
+- toast: ^0.1.5
+- font_awesome_flutter: ^8.8.1
+- url_launcher: ^5.5.0
 
 For detailed explanation on how things work, check out [Flutter docs](https://flutter.dev/docs).
 

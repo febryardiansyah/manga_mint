@@ -1,12 +1,10 @@
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:mangamint/constants/base_color.dart';
-import 'package:mangamint/repositories/recommended_repo.dart';
 import 'package:mangamint/screens/home_screens/home_screen.dart';
 import 'package:mangamint/screens/lainnya_screen/lainnya_screen.dart';
 import 'package:mangamint/screens/list_manga_screen/index_manga_list.dart';
 import 'package:mangamint/screens/tersimpan_screen/tersimpan_screen.dart';
-import 'package:provider/provider.dart';
 
 class BottomNavBar extends StatefulWidget {
   @override
