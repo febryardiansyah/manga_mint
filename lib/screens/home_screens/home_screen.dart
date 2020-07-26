@@ -104,6 +104,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _recomendedBloc.add(RefreshRecommended());
     _popularBloc.add(RefreshPopular());
     _genreListBloc.add(RefreshGenreList());
-    _mangaListBloc.add(InitialFetchMangaEvent());
+    _mangaListBloc.add(RefreshMangaEvent());
   }
 }

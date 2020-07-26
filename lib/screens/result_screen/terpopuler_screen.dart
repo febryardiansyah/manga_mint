@@ -81,7 +81,7 @@ class _TerpopulerScreenState extends State<TerpopulerScreen> {
             ),
           );
         } else if (state is PopularFailureState) {
-          return BuildError(msg: state.msg,);
+          return BuildError();
         }
         return Container();
       },

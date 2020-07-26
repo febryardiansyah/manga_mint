@@ -106,23 +106,23 @@ class _MyCarouselState extends State<MyCarousel> {
                       }
                   ),
                 ),
-//              Row(
-//                mainAxisAlignment: MainAxisAlignment.start,
-//                children: state.recommendedList.map((url) {
-//                  int index = state.recommendedList.indexOf(url);
-//                  return Container(
-//                    width: 8.0,
-//                    height: 8.0,
-//                    margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-//                    decoration: BoxDecoration(
-//                      shape: BoxShape.circle,
-//                      color: _current == index
-//                          ? Color.fromRGBO(0, 0, 0, 0.9)
-//                          : Color.fromRGBO(0, 0, 0, 0.4),
-//                    ),
-//                  );
-//                }).toList(),
-//              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: state.recommendedList.map((url) {
+                  int index = state.recommendedList.indexOf(url);
+                  return Container(
+                    width: 8.0,
+                    height: 8.0,
+                    margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _current == index
+                          ? Color.fromRGBO(0, 0, 0, 0.9)
+                          : Color.fromRGBO(0, 0, 0, 0.4),
+                    ),
+                  );
+                }).toList(),
+              ),
               ],
             );
           }

@@ -23,7 +23,7 @@ class ChapterScreen extends StatefulWidget {
   _ChapterScreenState createState() => _ChapterScreenState();
 }
 
-class _ChapterScreenState extends State<ChapterScreen> {
+class _ChapterScreenState extends State<ChapterScreen> with TickerProviderStateMixin{
   final List<RadioGroup> _listRadio = [
     RadioGroup(index: 1, name: 'Vertical'),
     RadioGroup(index: 2, name: 'Horizontal')
@@ -48,10 +48,21 @@ class _ChapterScreenState extends State<ChapterScreen> {
     }
 
   }
+
+  Animation _animation;
+  AnimationController _animationController;
+  var animationListener;
+
   @override
   void initState() {
     super.initState();
     checkReadingMode();
+    _animationController = AnimationController(vsync: this,duration: Duration(milliseconds: 500));
+  }
+  @override
+  void dispose() {
+    _animationController?.dispose();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -126,6 +137,27 @@ class _ChapterScreenState extends State<ChapterScreen> {
                   ),
                 itemBuilder: (context,i){
                   return ExtendedImage.network(widget.data.chapterImage[i].chapter_image_link,
+                  onDoubleTap: (state){
+                    var pointerDownPosition = state.pointerDownPosition;
+                    double begin = state.gestureDetails.totalScale;
+                    double end;
+
+                    _animation?.removeListener(animationListener);
+                    _animationController.stop();
+                    _animationController.reset();
+
+                    (begin == 1.0) ? end = 3.0 : end =  1.0;
+
+                    animationListener = () {
+                      state.handleDoubleTap(
+                          scale: _animation.value,
+                          doubleTapPosition: pointerDownPosition);
+                    };
+
+                    _animation = _animationController.drive(Tween<double>(begin: begin, end: end));
+                    _animation.addListener(animationListener);
+                    _animationController.forward();
+                  },
                   mode: ExtendedImageMode.gesture,
                     initGestureConfigHandler: (state)=>GestureConfig(
                       minScale: 0.9,

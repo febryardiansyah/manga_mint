@@ -40,7 +40,7 @@ class TerbaruCategory extends StatelessWidget {
               },
             );
           }else if(state is MangaListStateFailure){
-            return Scaffold(body: BuildError(msg: state.msg,),);
+            return Text('Cek internet mu euy atau tunggu nanti');
           }
           return Container();
         },

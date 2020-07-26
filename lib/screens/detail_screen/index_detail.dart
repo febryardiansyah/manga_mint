@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:mangamint/bloc/manga_detail_bloc/bloc.dart';
+import 'package:mangamint/components/build_error.dart';
 import 'package:mangamint/components/loading_dialog.dart';
 import 'package:mangamint/screens/detail_screen/manga_detail_screen.dart';
 
@@ -32,7 +33,7 @@ class _IndexDetailState extends State<IndexDetail> {
         }else if(state is MangaDetailLoadedState){
           return MangaDetailScreen(data:state.data);
         }else if(state is MangaDetailFailureState){
-          return Center(child: Text(state.msg),);
+          return BuildError();
         }
         return Container();
       },

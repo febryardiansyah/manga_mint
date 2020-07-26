@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "998046135473",
+    "firebase_url": "https://manga-mint.firebaseio.com",
+    "project_id": "manga-mint",
+    "storage_bucket": "manga-mint.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:998046135473:android:32423ffeae599751601e90",
+        "android_client_info": {
+          "package_name": "com.febryardiansyah.mangamint"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "998046135473-q8efo5cos6vbh2hgsemkl8uudgl98mf7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASN8JitGXCjXbiKstX7FoguS4ts8wlwkg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "998046135473-q8efo5cos6vbh2hgsemkl8uudgl98mf7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

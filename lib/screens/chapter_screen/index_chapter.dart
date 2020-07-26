@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:mangamint/bloc/chapter_bloc/bloc.dart';
+import 'package:mangamint/components/build_error.dart';
 import 'package:mangamint/components/loading_dialog.dart';
 import 'package:mangamint/helper/hive/hive_chapter_model.dart';
 import 'package:mangamint/helper/hive/hive_chapter_opened_model.dart';
@@ -61,9 +62,7 @@ class _IndexChapterState extends State<IndexChapter> {
         }else if(state is ChapterLoadedState){
           return ChapterScreen(data: state.data,currentIndex: currentIndex,);
         }else if(state is ChapterFailureState){
-          return Scaffold(
-            body: Center(child: Text(state.msg)),
-          );
+          return BuildError();
         }
         return Container();
       },

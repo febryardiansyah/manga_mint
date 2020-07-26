@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mangamint/bloc/manhuamanhwa/bloc.dart';
 import 'package:mangamint/components/bottom_loader.dart';
+import 'package:mangamint/components/build_error.dart';
 import 'package:mangamint/components/my_shimmer.dart';
 import 'package:mangamint/constants/base_color.dart';
 import 'package:mangamint/helper/color_manga_type.dart';
@@ -113,7 +114,7 @@ class _ManhwaCategoryState extends State<ManhwaCategory> {
               ),
             );
           }else if(state is ManhuaManhwaFailureState){
-            return Center(child: Text(state.msg),);
+            return BuildError();
           }
           return Container();
         },
