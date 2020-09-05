@@ -12,7 +12,7 @@ class TerbaruCategory extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: BlocBuilder<MangaListBloc,MangaListState>(
         builder: (context,state){
-          if (state is MangaListLoadingState) {
+          if (state is MangaListLoadingState || state is MangaListStateFailure) {
             return MyShimmer(
               child: Container(
                 color: BaseColor.red,
@@ -38,8 +38,6 @@ class TerbaruCategory extends StatelessWidget {
                 );
               },
             );
-          }else if(state is MangaListStateFailure){
-            return Text('Cek internet mu euy atau tunggu nanti');
           }
           return Container();
         },

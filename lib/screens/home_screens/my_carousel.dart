@@ -35,7 +35,7 @@ class _MyCarouselState extends State<MyCarousel> {
         }
       },
         builder: (context,state){
-          if (state is RecommendedLoadingState) {
+          if (state is RecommendedLoadingState || state is RecomendedFailureState) {
             return MyShimmer(
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -122,10 +122,10 @@ class _MyCarouselState extends State<MyCarousel> {
               ],
             );
           }
-          if(state is RecomendedFailureState){
-            print(state.msg);
-            return Text('Cek internet mu euy atau tunggu nanti');
-          }
+//          if(state is RecomendedFailureState){
+//            print(state.msg);
+//            return Text('Cek internet mu euy atau tunggu nanti');
+//          }
           return Container();
         },
     );

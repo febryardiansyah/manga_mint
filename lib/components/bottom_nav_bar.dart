@@ -23,7 +23,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _children[index],
+      body: IndexedStack(
+        children: _children,
+        index: index,
+      ),
       bottomNavigationBar: FFNavigationBar(
         selectedIndex: index,
         onSelectTab: _onTapTapped,

@@ -41,6 +41,9 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
 
   Stream<PopularState> _fetchPopularToState(PopularState currentState,int page)async*{
     try{
+//      if(currentState is PopularFailureState){
+//        yield InitialPopularState();
+//      }
       if(currentState is InitialPopularState){
         yield PopularLoadingState();
         List<PopularModel>list = await _popularRepo.getPopular(page: 2);
@@ -58,6 +61,9 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
 
   Stream<PopularState> _initialFetchToState(PopularState currentState,int page)async*{
     try{
+//      if(currentState is PopularFailureState){
+//        yield InitialPopularState();
+//      }
       if(currentState is InitialPopularState){
         yield PopularLoadingState();
         List<PopularModel>list = await _popularRepo.getPopular(page: page);
@@ -75,10 +81,12 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
   Stream<PopularState> _refreshPopularToState(PopularState currentState,int page)async*{
     yield PopularLoadingState();
     try{
-      if(currentState is PopularLoadedState){
-        List<PopularModel>list = await _popularRepo.getPopular(page: page);
-        yield PopularLoadedState(popularList: list,hasReachedMax: false,page: page+=1);
-      }
+//      if(currentState is PopularFailureState){
+//        yield InitialPopularState();
+//      }
+      List<PopularModel>list = await _popularRepo.getPopular(page: page);
+      yield PopularLoadedState(popularList: list,hasReachedMax: false,page: page+=1);
+
     }catch(e){
       yield PopularFailureState(msg: e.toString());
     }

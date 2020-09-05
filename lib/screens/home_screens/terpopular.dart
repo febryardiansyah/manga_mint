@@ -13,13 +13,39 @@ class TerpopularCategory extends StatelessWidget {
       padding: EdgeInsets.all(8),
       child: BlocBuilder<PopularBloc,PopularState>(
         builder: (context,state){
-          if(state is PopularLoadingState){
+          print(state);
+          if(state is PopularLoadingState || state is PopularFailureState){
             return MyShimmer(
-              child: Container(
-                height: 100,
-                width: MediaQuery.of(context).size.width,
-                color: BaseColor.red,
-              ),
+              child: GridView.builder(
+                shrinkWrap: true,
+                itemCount: 3,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,mainAxisSpacing: 2,crossAxisSpacing: 2
+                ),
+                itemBuilder: (context,i){
+                  return Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Container(
+                          height: 80,
+                          width: MediaQuery.of(context).size.width,
+                          color: BaseColor.red,
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Container(
+                          height: 10,
+                          width: MediaQuery.of(context).size.width,
+                          color: BaseColor.red,
+                        ),
+                      )
+                    ],
+                  );
+                },
+              )
             );
           }else if (state is PopularLoadedState) {
             return SizedBox(
@@ -43,9 +69,6 @@ class TerpopularCategory extends StatelessWidget {
                 },
               ),
             );
-          } else if(state is PopularFailureState){
-            print(state.msg);
-            return Text('Cek internet mu euy atau tunggu nanti');
           }
           return Container();
         },

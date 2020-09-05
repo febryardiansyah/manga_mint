@@ -75,9 +75,8 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           theme: ThemeData(
-            textTheme: TextTheme(
-              button: GoogleFonts.roboto(),
-              caption: GoogleFonts.roboto()
+            textTheme: GoogleFonts.robotoTextTheme(
+              Theme.of(context).textTheme
             ),
             appBarTheme: AppBarTheme(
               actionsIconTheme: IconThemeData(color: BaseColor.black),

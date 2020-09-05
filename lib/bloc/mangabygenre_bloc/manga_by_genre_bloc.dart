@@ -31,10 +31,14 @@ class MangaByGenreBloc extends Bloc<MangaByGenreEvent, MangaByGenreState> {
           return;
         }
         if(currentState is MangaByGenreLoadedState){
-          List<MangaByGenreModel> list = await _mangaByGenreRepo.getManga(genre: event.endpoint,page: currentState.page);
-          yield list.isEmpty ? currentState.copyWith(hasReachedMax: true,list: currentState.list):
-          MangaByGenreLoadedState(list: currentState.list+list,hasReachedMax: false,page:
-          currentState.page+=1);
+          try{
+            List<MangaByGenreModel> list = await _mangaByGenreRepo.getManga(genre: event.endpoint,page: currentState.page);
+            yield list.isEmpty ? currentState.copyWith(hasReachedMax: true,list: currentState.list):
+            MangaByGenreLoadedState(list: currentState.list+list,hasReachedMax: false,page:
+            currentState.page+=1);
+          }catch(e){
+            yield MangaByGenreLoadedState(list: currentState.list,hasReachedMax: true,page: currentState.page);
+          }
         }
       }catch(e){
         yield MangaByGenreFailureState(msg: e.toString());

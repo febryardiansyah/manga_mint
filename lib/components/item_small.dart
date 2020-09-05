@@ -25,6 +25,8 @@ class ItemSmall extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(8)),
                 child: ImageCacheLoading(
                   imgUrl: thumb,
+                  height: size.height,
+                  width: size.width,
                   imageBuilder: (context,imgProvider){
                     return Container(
                       height: 300.h,

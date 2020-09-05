@@ -12,7 +12,7 @@ class GenreListHome extends StatelessWidget {
       padding: EdgeInsets.only(top: 10),
       child: BlocBuilder<GenreListBloc,GenreListState>(
         builder: (context,state){
-          if (state is GenreListLoadingState) {
+          if (state is GenreListLoadingState || state is GenreListFailureState) {
             return MyShimmer(
               child: _myGridview(
                 itemCount: 16,

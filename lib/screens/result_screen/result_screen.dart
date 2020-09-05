@@ -37,6 +37,9 @@ class _ResultScreenState extends State<ResultScreen> {
               child: SpinKitCubeGrid(color: BaseColor.red,),
             );
           }else if (state is SearchLoadedState) {
+            if(state.searchList.isEmpty){
+              return Center(child: Text('Kosong Gan !!'),);
+            }
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListView.separated(
@@ -73,7 +76,7 @@ class _ResultScreenState extends State<ResultScreen> {
               ),
             );
           }else if(state is SearchFailureState){
-            return Center(child: Text('kosong gan'));
+            return Center(child: Text(state.msg));
           }
           return Container();
         },

@@ -1,32 +1,20 @@
-import 'dart:convert';
-
-import 'package:mangamint/constants/base_url.dart';
+import 'package:dio/dio.dart';
 import 'package:mangamint/models/genre_list_model.dart';
-import 'package:mangamint/service/api_service.dart';
+import 'package:mangamint/service/base_service.dart';
 
-class GenreListRepo {
+class GenreListRepo extends BaseService{
   Future<List<GeneListModel>>getGenreList()async{
-    final response = await ApiService.api.get(BaseUrl+'genres');
-    if (response.statusCode == 200) {
-      var res = json.decode(response.body)['list_genre'];
-      List<GeneListModel>list = List<GeneListModel>.from(res.map((item) => GeneListModel.fromMap(item)));
-      return list;
-    }else{
-      throw Exception('Failed Fetch');
-    }
+    final Response response = await request(url:'genres');
+    List<GeneListModel>list = List<GeneListModel>.from(response.data['list_genre'].map((item) => GeneListModel.fromMap(item)));
+    return list;
   }
 }
 
-class MangaByGenreRepo{
+class MangaByGenreRepo extends BaseService{
   Future<List<MangaByGenreModel>>getManga({String genre,int page})async{
-    final response = await ApiService.api.get(BaseUrl+'genres/$genre$page');
-    if (response.statusCode == 200) {
-      var res = json.decode(response.body)['manga_list'];
-      List<MangaByGenreModel>list = List<MangaByGenreModel>.from(res.map((item) => MangaByGenreModel.fromJson(item)));
-      print(page);
-      return list;
-    }else{
-      throw Exception('Failed Fetch');
-    }
+    final Response response = await request(url: 'genres/$genre$page');
+    print(response);
+    List<MangaByGenreModel>list = List<MangaByGenreModel>.from(response.data['manga_list'].map((item) => MangaByGenreModel.fromJson(item)));
+    return list;
   }
 }

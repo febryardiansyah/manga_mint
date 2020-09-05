@@ -19,8 +19,10 @@ class MangaByGenreScreen extends StatefulWidget {
 
 class _MangaByGenreScreenState extends State<MangaByGenreScreen> {
   MangaByGenreBloc _mangaByGenreBloc;
+
   final _scrollController = ScrollController();
   final _scrollThreshold = 200.0;
+
   void _onScroll() {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
@@ -40,15 +42,29 @@ class _MangaByGenreScreenState extends State<MangaByGenreScreen> {
   Widget build(BuildContext context) {
     ScreenUtil.init();
     return MyBody(
-      showSearch: false,
-      showRefresh: false,
+      onSearch: (){
+        Navigator.pushNamed(context, '/search');
+      },
+      onRefresh: (){
+        _mangaByGenreBloc = BlocProvider.of<MangaByGenreBloc>(context)
+          ..add(InitialMangaByGenreEvent(endpoint: widget.endpoint));
+      },
       title: Text(
-        widget.endpoint.substring(0, widget.endpoint.length - 1),
+        '${widget.endpoint[0].toUpperCase()}${widget.endpoint.substring(1, widget.endpoint.length - 1)}',
         style: TextStyle(color: BaseColor.black),
       ),
-      body: BlocBuilder<MangaByGenreBloc, MangaByGenreState>(
+      body: BlocConsumer<MangaByGenreBloc, MangaByGenreState>(
+        listener: (context,state){
+          if(state is MangaByGenreFailureState){
+            Scaffold.of(context)..hideCurrentSnackBar()
+              ..showSnackBar(SnackBar(
+                content: Text('Njir bruh, gk ada paketan kah ?'),
+              ));
+          }
+        },
         builder: (context,state){
-          if(state is MangaByGenreLoadingState){
+          print(state);
+          if(state is MangaByGenreLoadingState || state is MangaByGenreFailureState){
             return MyShimmer(
               child: ListView.builder(
                 itemCount: 10,
