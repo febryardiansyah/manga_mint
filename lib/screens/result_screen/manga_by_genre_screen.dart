@@ -24,11 +24,15 @@ class _MangaByGenreScreenState extends State<MangaByGenreScreen> {
   final _scrollThreshold = 200.0;
 
   void _onScroll() {
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.position.pixels;
-    if (maxScroll - currentScroll <= _scrollThreshold) {
+
+    if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
       _mangaByGenreBloc.add(FetchMangByGenre(endpoint: widget.endpoint));
     }
+//    final maxScroll = _scrollController.position.maxScrollExtent;
+//    final currentScroll = _scrollController.position.pixels;
+//    if (maxScroll - currentScroll <= _scrollThreshold) {
+//      _mangaByGenreBloc.add(FetchMangByGenre(endpoint: widget.endpoint));
+//    }
   }
   @override
   void initState() {
@@ -61,6 +65,7 @@ class _MangaByGenreScreenState extends State<MangaByGenreScreen> {
                 content: Text('Njir bruh, gk ada paketan kah ?'),
               ));
           }
+
         },
         builder: (context,state){
           print(state);
@@ -87,36 +92,38 @@ class _MangaByGenreScreenState extends State<MangaByGenreScreen> {
               ),
             );
           }
+
           else if(state is MangaByGenreLoadedState){
-            return Padding(
+
+            if(state.list.isEmpty){
+              return Text('no manga');
+            }
+            return ListView.builder(
               padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                controller: _scrollController,
-                itemCount : state.hasReachedMax? state.list.length:state.list.length+1,
-                itemBuilder: (context,i){
-                  return i >= state.list.length?BottomLoader(): ListTile(
-                    onTap: (){
-                      Navigator.pushNamed(context, '/detailmanga',arguments: state.list[i].endpoint);
-                    },
-                    subtitle: Text(state.list[i].type,style: TextStyle(
-                        color: mangaTypeColor(state.list[i].type)
-                    ),),
-                    leading: Image.network(
-                      state.list[i].thumb ?? 'https://webhostingmedia.net/wp-content/uploads/2018/01/http-error-404-not-found.png',
-                      height: MediaQuery.of(context).size.height,
-                      width: 200.w,
-                      fit: BoxFit.cover,
-                    ),
-                    title: Text(state.list[i].title.length >= 30 ?'${
-                        state.list[i].title.substring(0,30)
-                    }..':state.list[i].title),
-                  );
-                },
-              ),
-            );
-          }else if(state is MangaByGenreFailureState){
-            return Center(
-              child: Text('Kosong gan'),
+              controller: _scrollController,
+              itemCount : state.hasReachedMax? state.list.length:state.list.length+1,
+              itemBuilder: (context,i){
+//                print('list ${state.list.length}');
+//                print('index $i');
+                print('max ? ${state.hasReachedMax}');
+                return i >= state.list.length?BottomLoader(): ListTile(
+                  onTap: (){
+                    Navigator.pushNamed(context, '/detailmanga',arguments: state.list[i].endpoint);
+                  },
+                  subtitle: Text(state.list[i].type,style: TextStyle(
+                      color: mangaTypeColor(state.list[i].type)
+                  ),),
+                  leading: Image.network(
+                    state.list[i].thumb ?? 'https://webhostingmedia.net/wp-content/uploads/2018/01/http-error-404-not-found.png',
+                    height: MediaQuery.of(context).size.height,
+                    width: 200.w,
+                    fit: BoxFit.cover,
+                  ),
+                  title: Text(state.list[i].title.length >= 30 ?'${
+                      state.list[i].title.substring(0,30)
+                  }..':state.list[i].title),
+                );
+              },
             );
           }
           return Container();

@@ -13,8 +13,8 @@ class GenreListRepo extends BaseService{
 class MangaByGenreRepo extends BaseService{
   Future<List<MangaByGenreModel>>getManga({String genre,int page})async{
     final Response response = await request(url: 'genres/$genre$page');
-    print(response);
     List<MangaByGenreModel>list = List<MangaByGenreModel>.from(response.data['manga_list'].map((item) => MangaByGenreModel.fromJson(item)));
+    print(list.length);
     return list;
   }
 }

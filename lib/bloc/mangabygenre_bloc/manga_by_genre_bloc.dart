@@ -10,12 +10,14 @@ class MangaByGenreBloc extends Bloc<MangaByGenreEvent, MangaByGenreState> {
   MangaByGenreBloc(this._mangaByGenreRepo) : super(InitialMangaByGenreState());
 
   bool _hasReachedMax(MangaByGenreState state) => state is MangaByGenreLoadedState && state.hasReachedMax;
+
   @override
   Stream<Transition<MangaByGenreEvent, MangaByGenreState>> transformEvents(Stream<MangaByGenreEvent> events, transitionFn) {
     return super.transformEvents(events.debounceTime(
       Duration(milliseconds: 500)
     ), transitionFn);
   }
+
   @override
   Stream<MangaByGenreState> mapEventToState(
     MangaByGenreEvent event,
@@ -27,8 +29,8 @@ class MangaByGenreBloc extends Bloc<MangaByGenreEvent, MangaByGenreState> {
         if(currentState is InitialMangaByGenreState){
           yield MangaByGenreLoadingState();
           List<MangaByGenreModel> list = await _mangaByGenreRepo.getManga(genre: event.endpoint,page: page+=1);
+
           yield MangaByGenreLoadedState(list: list,page: page+=1,hasReachedMax: false);
-          return;
         }
         if(currentState is MangaByGenreLoadedState){
           try{
@@ -48,7 +50,8 @@ class MangaByGenreBloc extends Bloc<MangaByGenreEvent, MangaByGenreState> {
       yield MangaByGenreLoadingState();
       try{
         List<MangaByGenreModel> list = await _mangaByGenreRepo.getManga(genre: event.endpoint,page: page);
-        yield MangaByGenreLoadedState(list: list,page: page+=1,hasReachedMax: false);
+        yield list.length < 20 ?MangaByGenreLoadedState(list: list,page: page,hasReachedMax: true)
+            :MangaByGenreLoadedState(list: list,page: page+=1,hasReachedMax: false);
       }catch(e){
         yield MangaByGenreFailureState(msg: e.toString());
       }

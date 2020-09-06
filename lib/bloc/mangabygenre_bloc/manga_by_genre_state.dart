@@ -22,7 +22,7 @@ class MangaByGenreLoadedState extends MangaByGenreState{
     );
   }
   @override
-  List<Object> get props => [list];
+  List<Object> get props => [list,hasReachedMax,page];
 
 }
 class MangaByGenreFailureState extends MangaByGenreState{
