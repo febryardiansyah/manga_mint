@@ -25,7 +25,7 @@ class MangaDetailModel{
       synopsis: json['synopsis'],
       updated_on: json['updated_on'],
       manga_endpoint: json['manga_endpoint'],
-      genreList: List<Genres>.from(json['genre_list'].map((item) => Genres.fromMap(item))),
+      genreList: List<Genres>.from(json['genre_list'].map((item) => Genres.fromMap(item))) ?? [],
       chapterList: List<ChapterList>.from(json['chapter'].map((item)=>ChapterList.fromMap(item))),
     );
   }

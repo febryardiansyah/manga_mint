@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
-import 'package:mangamint/bloc/bloc.dart';
+import 'package:mangamint/bloc/manga_list_bloc/bloc.dart';
 import 'package:mangamint/bloc/chapter_bloc/bloc.dart';
 import 'package:mangamint/bloc/genre_list_bloc/bloc.dart';
 import 'package:mangamint/bloc/manga_detail_bloc/bloc.dart';

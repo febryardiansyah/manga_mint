@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mangamint/bloc/bloc.dart';
+import 'package:mangamint/bloc/manga_list_bloc/bloc.dart';
 import 'package:mangamint/components/item_big.dart';
 import 'package:mangamint/components/my_shimmer.dart';
 import 'package:mangamint/constants/base_color.dart';
@@ -14,10 +14,18 @@ class TerbaruCategory extends StatelessWidget {
         builder: (context,state){
           if (state is MangaListLoadingState || state is MangaListStateFailure) {
             return MyShimmer(
-              child: Container(
-                color: BaseColor.red,
-                width: MediaQuery.of(context).size.width,
-                height: 100,
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,mainAxisSpacing: 1,crossAxisSpacing: 2,
+                ),
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
+                itemCount: 10,
+                itemBuilder:(context,i)=> Container(
+                  color: BaseColor.red,
+                  width: MediaQuery.of(context).size.width,
+                  height: 100,
+                ),
               ),
             );
           }else if (state is MangaListStateLoaded) {

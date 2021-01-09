@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:mangamint/bloc/bloc.dart';
+import 'package:mangamint/bloc/manga_list_bloc/bloc.dart';
 import 'package:mangamint/models/manhua_manhwa_model.dart';
 import 'package:mangamint/repositories/manhua_manhwa_repo.dart';
 import 'package:rxdart/rxdart.dart';
@@ -10,7 +10,9 @@ class ManhuamanhwaBloc extends Bloc<ManhuamanhwaEvent, ManhuamanhwaState> {
   ManhuaManhwaRepo _manhuaManhwaRepo;
 
   ManhuamanhwaBloc(this._manhuaManhwaRepo) : super(InitialManhuamanhwaState());
+
   bool _hasReachedMax(ManhuamanhwaState state) => state is ManhuaLoadedState && state.hasReachedMax;
+
   @override
   Stream<Transition<ManhuamanhwaEvent, ManhuamanhwaState>> transformEvents(Stream<ManhuamanhwaEvent> events, transitionFn) {
     return super.transformEvents(events.debounceTime(

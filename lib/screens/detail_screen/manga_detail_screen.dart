@@ -262,11 +262,15 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
             children: [
               _detail(data),
               Divider(),
-              Text(
-                'Genre',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              Wrap(
+                children: [
+                  Text(
+                    'Genre',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                  _genre(data),
+                ],
               ),
-              _genre(data),
               Divider(),
               Row(
                 children: [
@@ -424,10 +428,12 @@ class _ChapterListState extends State<ChapterList> {
                     ? BaseColor.grey1
                     : BaseColor.red,
                 height: 50,
+                padding: EdgeInsets.all(8),
                 child: Center(
                     child: Text(
                   widget.data.chapterList[index].chapter_title,
                   style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.center,
                 )),
               ),
             ),

@@ -29,7 +29,15 @@ class _TerpopulerScreenState extends State<TerpopulerScreen> {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init();
-    return BlocBuilder<PopularBloc,PopularState>(
+    return BlocConsumer<PopularBloc,PopularState>(
+      listener: (context,state){
+        if(state is PopularFailureState){
+          Scaffold.of(context)..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+              content: Text(state.msg),
+            ));
+        }
+      },
       builder: (context,state){
         if(state is PopularLoadingState){
           return MyShimmer(
@@ -46,8 +54,9 @@ class _TerpopulerScreenState extends State<TerpopulerScreen> {
             body: Padding(
               padding: const EdgeInsets.only(top: 10),
               child: Scrollbar(
+                controller: _scrollController,
                 child: GridView.builder(
-                  itemCount: state.hasReachedMax?state.popularList.length:state.popularList.length,
+                  itemCount: state.popularList.length,
                   shrinkWrap: true,
                   controller: _scrollController,
                   physics: ClampingScrollPhysics(),
@@ -88,9 +97,8 @@ class _TerpopulerScreenState extends State<TerpopulerScreen> {
     );
   }
   void _onScroll() {
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.position.pixels;
-    if (maxScroll - currentScroll <= _scrollThreshold) {
+
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
       _popularBloc.add(FetchPopular());
     }
   }

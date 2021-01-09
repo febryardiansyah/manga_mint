@@ -27,7 +27,7 @@ class _MyCarouselState extends State<MyCarousel> {
                 content: Row(
                   children: [
                     Icon(Icons.info_outline),
-                    Text('Belum beli paketan kah ?',style: TextStyle(color: Colors.white),),
+                    Text('Kenapa hayoo, cobak cek internet mu cuk !!',style: TextStyle(color: Colors.white),),
                   ],
                 ),
                 backgroundColor: BaseColor.green,

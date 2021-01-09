@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 
 class GeneListModel extends Equatable{
-  String title,endpoint;
+  String genre_name,endpoint;
 
-  GeneListModel({this.title, this.endpoint});
+  GeneListModel({this.genre_name, this.endpoint});
 
   factory GeneListModel.fromMap(Map<String,dynamic>json){
     return GeneListModel(
       endpoint: json['endpoint'],
-      title: json['title']
+      genre_name: json['genre_name']
     );
   }
   @override

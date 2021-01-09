@@ -13,7 +13,6 @@ class TerpopularCategory extends StatelessWidget {
       padding: EdgeInsets.all(8),
       child: BlocBuilder<PopularBloc,PopularState>(
         builder: (context,state){
-          print(state);
           if(state is PopularLoadingState || state is PopularFailureState){
             return MyShimmer(
               child: GridView.builder(

@@ -10,6 +10,7 @@ class MangaDetailRepo extends BaseService{
   Future<MangaDetailModel>getMangaDetail(String endpoint)async{
     final Response response = await request(url: 'manga/detail/$endpoint');
     final MangaDetailModel data = MangaDetailModel.fromJson(response.data);
+    print(response.data);
     return data;
 //    final response = await ApiService.api.get(BaseUrl+'manga/detail/$endpoint');
 //

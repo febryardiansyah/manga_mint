@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mangamint/bloc/bloc.dart';
+import 'package:mangamint/bloc/manga_list_bloc/bloc.dart';
 import 'package:mangamint/bloc/genre_list_bloc/bloc.dart';
 import 'package:mangamint/bloc/popular_bloc/bloc.dart';
 import 'package:mangamint/bloc/recomended_bloc/bloc.dart';
@@ -43,13 +43,13 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           children: [
             MyCarousel(),
-            _rowTitle(
-              title: 'Popular',
-              seemore: (){
-                Navigator.pushNamed(context, '/popular');
-              },
-              child: TerpopularCategory()
-            ),
+            // _rowTitle(
+            //   title: 'Popular',
+            //   seemore: (){
+            //     Navigator.pushNamed(context, '/popular');
+            //   },
+            //   child: TerpopularCategory()
+            // ),
             _rowTitle(
               showMore: false,
                 title: 'Terbaru',
@@ -88,8 +88,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void init(){
     _recomendedBloc = BlocProvider.of<RecomendedBloc>(context);
     _recomendedBloc.add(FetchRecommended());
-    _popularBloc = BlocProvider.of<PopularBloc>(context);
-    _popularBloc.add(InitialFetchPopular());
+    // _popularBloc = BlocProvider.of<PopularBloc>(context);
+    // _popularBloc.add(InitialFetchPopular());
     _genreListBloc = BlocProvider.of<GenreListBloc>(context);
     _genreListBloc.add(FetchGenreList());
     _mangaListBloc = BlocProvider.of(context)..add(InitialFetchMangaEvent());
@@ -97,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   void _onRefresh(){
     _recomendedBloc.add(RefreshRecommended());
-    _popularBloc.add(RefreshPopular());
+    // _popularBloc.add(RefreshPopular());
     _genreListBloc.add(RefreshGenreList());
     _mangaListBloc.add(RefreshMangaEvent());
   }

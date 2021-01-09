@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mangamint/bloc/bloc.dart';
+import 'package:mangamint/bloc/manga_list_bloc/bloc.dart';
 import 'package:mangamint/components/bottom_loader.dart';
 import 'package:mangamint/components/build_error.dart';
 import 'package:mangamint/components/my_shimmer.dart';

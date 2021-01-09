@@ -38,7 +38,7 @@ class GenreListHome extends StatelessWidget {
                     child: Container(
                       color: BaseColor.red,
                       height: 20,
-                      child: Center(child: Text(state.genreList[i].title,style: TextStyle(color: Colors.white),)),
+                      child: Center(child: Text(state.genreList[i].genre_name,style: TextStyle(color: Colors.white),textAlign: TextAlign.center,)),
                     ),
                   ),
                 );

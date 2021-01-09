@@ -8,8 +8,9 @@ import 'package:mangamint/service/base_service.dart';
 
 class SearchRepo extends BaseService{
   Future<List<SearchModel>>searchManga({String query})async{
-    final Response response = await request(url:'cari/$query');
-    List<SearchModel> list = List<SearchModel>.from(response.data.map((json) => SearchModel.fromJson(json)));
+    final Response response = await request(url:'search/$query');
+    List<SearchModel> list = List<SearchModel>.from(response.data['manga_list'].map((json) => SearchModel.fromJson(json)));
+    print(response.data);
     return list;
 //    final response = await ApiService.api.get(BaseUrl+'cari/$query');
 //    if(response.statusCode == 200){

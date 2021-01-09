@@ -25,17 +25,21 @@ class _IndexDetailState extends State<IndexDetail> {
   }
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MangaDetailBloc,MangaDetailState>(
-      builder: (context, state){
-        if(state is MangaDetailLoadingState){
-          return LoadingDialog();
-        }else if(state is MangaDetailLoadedState){
-          return MangaDetailScreen(data:state.data);
-        }else if(state is MangaDetailFailureState){
-          return BuildError();
-        }
-        return Container();
-      },
+    return Scaffold(
+      body: BlocBuilder<MangaDetailBloc,MangaDetailState>(
+        builder: (context, state){
+          if(state is MangaDetailLoadingState){
+            return LoadingDialog();
+          }else if(state is MangaDetailLoadedState){
+            return MangaDetailScreen(data:state.data);
+          }else if(state is MangaDetailFailureState){
+            return BuildError(msg: state.msg,onRefresh: (){
+              context.bloc<MangaDetailBloc>().add(FetchMangaDetail(widget.endpoint));
+            },);
+          }
+          return Container();
+        },
+      ),
     );
   }
 }

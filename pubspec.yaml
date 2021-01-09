@@ -41,7 +41,7 @@ dependencies:
   carousel_slider: ^2.2.1
   flutter_screenutil: ^2.2.0
   cached_network_image: ^2.2.0+1
-  photo_view: ^0.9.2
+  photo_view: ^0.10.3
   shared_preferences: ^0.5.8
   path_provider: ^1.6.11
   path: ^1.7.0

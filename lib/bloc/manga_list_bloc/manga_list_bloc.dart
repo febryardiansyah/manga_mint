@@ -2,8 +2,10 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:mangamint/models/manga_list_model.dart';
 import 'package:mangamint/repositories/manga_list_repo.dart';
-import './bloc.dart';
 import 'package:rxdart/rxdart.dart';
+
+import 'manga_list_event.dart';
+import 'manga_list_state.dart';
 
 class MangaListBloc extends Bloc<MangaListEvent, MangaListState> {
   final MangaListRepo _mangaListRepo;

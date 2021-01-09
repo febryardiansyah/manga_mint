@@ -76,7 +76,10 @@ class _ResultScreenState extends State<ResultScreen> {
               ),
             );
           }else if(state is SearchFailureState){
-            return Center(child: Text(state.msg));
+            return Padding(
+              padding: const EdgeInsets.all(20),
+              child: Center(child: Text(state.msg)),
+            );
           }
           return Container();
         },

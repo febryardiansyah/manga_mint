@@ -1,2 +1,2 @@
 
-const String BaseUrl = 'https://mangamint.azurewebsites.net/api/';
+const String BaseUrl = 'https://mangamint.kaedenoki.net/api/';

@@ -6,6 +6,7 @@ class GenreListRepo extends BaseService{
   Future<List<GeneListModel>>getGenreList()async{
     final Response response = await request(url:'genres');
     List<GeneListModel>list = List<GeneListModel>.from(response.data['list_genre'].map((item) => GeneListModel.fromMap(item)));
+    // print('genressssss ${response.data}');
     return list;
   }
 }

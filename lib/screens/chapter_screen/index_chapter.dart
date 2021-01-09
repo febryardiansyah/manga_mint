@@ -50,17 +50,19 @@ class _IndexChapterState extends State<IndexChapter> {
   }
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ChapterBlocBloc,ChapterBlocState>(
-      builder: (context,state){
-        if(state is ChapterLoadingState){
-          return LoadingDialog();
-        }else if(state is ChapterLoadedState){
-          return ChapterScreen(data: state.data,currentIndex: currentIndex,);
-        }else if(state is ChapterFailureState){
-          return BuildError();
-        }
-        return Container();
-      },
+    return Scaffold(
+      body: BlocBuilder<ChapterBlocBloc,ChapterBlocState>(
+        builder: (context,state){
+          if(state is ChapterLoadingState){
+            return LoadingDialog();
+          }else if(state is ChapterLoadedState){
+            return ChapterScreen(data: state.data,currentIndex: currentIndex,);
+          }else if(state is ChapterFailureState){
+            return BuildError(onRefresh: (){},msg: state.msg,);
+          }
+          return Container();
+        },
+      ),
     );
   }
 }
