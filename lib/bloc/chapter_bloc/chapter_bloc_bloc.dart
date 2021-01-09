@@ -4,10 +4,10 @@ import 'package:mangamint/models/chapter_model.dart';
 import 'package:mangamint/repositories/chapter_repo.dart';
 import './bloc.dart';
 
-class ChapterBlocBloc extends Bloc<ChapterBlocEvent, ChapterBlocState> {
+class ChapterBloc extends Bloc<ChapterBlocEvent, ChapterBlocState> {
   final ChapterRepo _chapterRepo;
 
-  ChapterBlocBloc(this._chapterRepo) : super(InitialChapterBlocState());
+  ChapterBloc(this._chapterRepo) : super(InitialChapterBlocState());
 
   @override
   Stream<ChapterBlocState> mapEventToState(

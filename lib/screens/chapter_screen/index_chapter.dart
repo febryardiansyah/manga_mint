@@ -17,7 +17,7 @@ class IndexChapter extends StatefulWidget {
 }
 
 class _IndexChapterState extends State<IndexChapter> {
-  ChapterBlocBloc _chapterBlocBloc;
+  ChapterBloc _chapterBlocBloc;
   String get endpoint => widget.endpoint;
   int currentIndex = 0;
   bool isExist = false;
@@ -44,14 +44,14 @@ class _IndexChapterState extends State<IndexChapter> {
   @override
   void initState() {
     super.initState();
-    _chapterBlocBloc = BlocProvider.of<ChapterBlocBloc>(context)..add(FetchChapter(endpoint: widget.endpoint));
+    _chapterBlocBloc = BlocProvider.of<ChapterBloc>(context)..add(FetchChapter(endpoint: widget.endpoint));
     _checkLastChapter();
 
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<ChapterBlocBloc,ChapterBlocState>(
+      body: BlocBuilder<ChapterBloc,ChapterBlocState>(
         builder: (context,state){
           if(state is ChapterLoadingState){
             return LoadingDialog();

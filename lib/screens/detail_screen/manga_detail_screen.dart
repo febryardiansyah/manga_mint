@@ -23,8 +23,8 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
   var mangaBox = Hive.box('manga');
   bool _isSaved = false;
   HiveMangaModel mangaModel;
-  var lastBox = Hive.box('lastOpenedChapter');
-  HiveChapterOpenedModel lastModel;
+  var lastOpenedBox = Hive.box('lastOpenedChapter');
+  HiveChapterOpenedModel lastOpenedModel;
   String _chapterEndpoint = '';
   int _totalChapter;
 
@@ -61,12 +61,12 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
     setState(() {
       _totalChapter = data.chapterList.length-1;
     });
-    int count = lastBox.length;
+    int count = lastOpenedBox.length;
     for (int i = 0; i < count; i++) {
-      lastModel = lastBox.getAt(i);
-      if (lastModel.manga_endpoint == widget.data.manga_endpoint) {
+      lastOpenedModel = lastOpenedBox.getAt(i);
+      if (lastOpenedModel.manga_endpoint == widget.data.manga_endpoint) {
         setState(() {
-          _chapterEndpoint = lastModel.chapter_endpoint;
+          _chapterEndpoint = lastOpenedModel.chapter_endpoint;
         });
         break;
       } else {
@@ -90,13 +90,23 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: _chapterEndpoint.isEmpty?Center():FloatingActionButton(
-          child: Icon(Icons.history),
-          tooltip: 'Lanjutkan chapter',
-          backgroundColor: BaseColor.orange,
-          onPressed: (){
-            Navigator.pushNamed(context, '/chapter',arguments: _chapterEndpoint);
-          },
+        floatingActionButton: _chapterEndpoint.isEmpty?Center():WatchBoxBuilder(
+          box: lastOpenedBox,
+          builder:(context,ch)=> FloatingActionButton(
+            child: Icon(Icons.history),
+            tooltip: 'Lanjutkan chapter',
+            backgroundColor: BaseColor.orange,
+            onPressed: (){
+              for(int i = 0;i<ch.length;i++){
+                 lastOpenedModel = lastOpenedBox.getAt(i);
+                 if (lastOpenedModel.manga_endpoint == widget.data.manga_endpoint) {
+                   print(lastOpenedModel.chapter_endpoint);
+                   Navigator.pushNamed(context, '/chapter',arguments: lastOpenedModel.chapter_endpoint);
+                   break;
+                 }
+              }
+            },
+          ),
         ),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(500.h),
@@ -285,7 +295,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                   )
                 ],
               ),
-              ChapterList(data, isReversed,)
+              ChapterList(data, isReversed)
             ],
           ),
         ),
@@ -297,6 +307,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        _detailRow(key: 'Title', value: data.title),
         _detailRow(key: 'Status', value: data.status),
         _detailRow(key: 'Author', value: data.author),
         _detailRow(key: 'Type', value: data.type),
@@ -360,6 +371,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
 class ChapterList extends StatefulWidget {
   final MangaDetailModel data;
   bool isReversed;
+  String chEndpoint;
 
   ChapterList(this.data, this.isReversed, );
 

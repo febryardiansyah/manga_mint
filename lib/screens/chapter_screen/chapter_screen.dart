@@ -2,9 +2,11 @@ import 'package:equatable/equatable.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mangamint/bloc/chapter_bloc/bloc.dart';
 import 'package:mangamint/constants/base_color.dart';
 import 'package:mangamint/helper/hive/hive_chapter_model.dart';
 import 'package:mangamint/models/chapter_model.dart';
@@ -87,7 +89,26 @@ class _ChapterScreenState extends State<ChapterScreen> with TickerProviderStateM
           builder:(context,chapter) => Scrollbar(
             child: Stack(
               children: [
-               PhotoViewGallery.builder(
+                Container(width: MediaQuery.of(context).size.width,height: MediaQuery.of(context).size.height,),
+               widget.data.chapterImage.isEmpty?Positioned(
+                 top: MediaQuery.of(context).size.height * 0.2,
+                 left: 0,right: 0,
+                 child: Column(
+                   children: [
+                     Text('Gambarnya belum keload euy,\nbelum beli paketan kah ?',style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),
+                     Padding(
+                       padding: EdgeInsets.only(top: 8),
+                       child: FlatButton(
+                         color: BaseColor.red,
+                         onPressed: (){
+                           BlocProvider.of<ChapterBloc>(context).add(FetchChapter(endpoint: widget.data.chapter_endpoint));
+                         },
+                         child: Text('Coba Muat Ulang !!',style: TextStyle(color: Colors.white),),
+                       ),
+                     )
+                   ],
+                 ),
+               ):PhotoViewGallery.builder(
                  pageController: PageController(
                      initialPage: widget.currentIndex,
                  ),

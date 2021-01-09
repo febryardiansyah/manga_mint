@@ -51,8 +51,8 @@ class MyApp extends StatelessWidget {
           BlocProvider<MangaDetailBloc>(
             create: (context) => MangaDetailBloc(MangaDetailRepo()),
           ),
-          BlocProvider<ChapterBlocBloc>(
-            create: (context) => ChapterBlocBloc(ChapterRepo()),
+          BlocProvider<ChapterBloc>(
+            create: (context) => ChapterBloc(ChapterRepo()),
           ),
           BlocProvider<RecomendedBloc>(
             create: (_) => RecomendedBloc(RecommendedRepo()),
