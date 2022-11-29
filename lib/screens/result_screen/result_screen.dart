@@ -21,44 +21,59 @@ class _ResultScreenState extends State<ResultScreen> {
   @override
   void initState() {
     super.initState();
-    _searchBlocBloc = BlocProvider.of<SearchBlocBloc>(context)..add(FetchSearch(query: widget.query));
+    _searchBlocBloc = BlocProvider.of<SearchBlocBloc>(context)
+      ..add(FetchSearch(query: widget.query));
   }
+
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init();
+    ScreenUtil.init(context);
     return MyBody(
       showSearch: false,
       showRefresh: false,
-      title: Text('Hasil Pencarian ${widget.query}',style: TextStyle(color: BaseColor.black),),
-      body: BlocBuilder<SearchBlocBloc,SearchBlocState>(
-        builder: (context,state){
-          if(state is SearchLoadingState){
+      title: Text(
+        'Hasil Pencarian ${widget.query}',
+        style: TextStyle(color: BaseColor.black),
+      ),
+      body: BlocBuilder<SearchBlocBloc, SearchBlocState>(
+        builder: (context, state) {
+          if (state is SearchLoadingState) {
             return Center(
-              child: SpinKitCubeGrid(color: BaseColor.red,),
+              child: SpinKitCubeGrid(
+                color: BaseColor.red,
+              ),
             );
-          }else if (state is SearchLoadedState) {
-            if(state.searchList.isEmpty){
-              return Center(child: Text('Kosong Gan !!'),);
+          } else if (state is SearchLoadedState) {
+            if (state.searchList.isEmpty) {
+              return Center(
+                child: Text('Kosong Gan !!'),
+              );
             }
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListView.separated(
-                separatorBuilder: (context,index)=>Divider(color: BaseColor.grey2,),
+                separatorBuilder: (context, index) => Divider(
+                  color: BaseColor.grey2,
+                ),
                 itemCount: state.searchList.length,
-                itemBuilder: (context,i){
+                itemBuilder: (context, i) {
                   return ListTile(
-                    onTap: (){
-                      Navigator.pushNamed(context, '/detailmanga',arguments: state.searchList[i].endpoint);
+                    onTap: () {
+                      Navigator.pushNamed(context, '/detailmanga',
+                          arguments: state.searchList[i].endpoint);
                     },
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(state.searchList[i].type,style: TextStyle(
-                            color: mangaTypeColor(state.searchList[i].type)
-                        ),),
-                        Text(state.searchList[i].updated_on,style: TextStyle(
-                            color: BaseColor.grey1
-                        ),),
+                        Text(
+                          state.searchList[i].type,
+                          style: TextStyle(
+                              color: mangaTypeColor(state.searchList[i].type)),
+                        ),
+                        Text(
+                          state.searchList[i].updated_on,
+                          style: TextStyle(color: BaseColor.grey1),
+                        ),
                       ],
                     ),
                     leading: Image.network(
@@ -67,15 +82,14 @@ class _ResultScreenState extends State<ResultScreen> {
                       width: 200.w,
                       fit: BoxFit.cover,
                     ),
-                    title: Text(state.searchList[i].title.length >= 30 ?'${
-                        state.searchList[i].title.substring(0,30)
-                    }..':state.searchList[i].title),
-
+                    title: Text(state.searchList[i].title.length >= 30
+                        ? '${state.searchList[i].title.substring(0, 30)}..'
+                        : state.searchList[i].title),
                   );
                 },
               ),
             );
-          }else if(state is SearchFailureState){
+          } else if (state is SearchFailureState) {
             return Padding(
               padding: const EdgeInsets.all(20),
               child: Center(child: Text(state.msg)),
@@ -86,5 +100,4 @@ class _ResultScreenState extends State<ResultScreen> {
       ),
     );
   }
-
 }

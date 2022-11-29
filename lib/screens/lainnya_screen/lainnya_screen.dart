@@ -16,47 +16,39 @@ class LainnyaScreen extends StatefulWidget {
 class _LainnyaScreenState extends State<LainnyaScreen> {
   List<_listTileModel> _list = [
     _listTileModel(
-      onPressed: (){
-      },
-      leading: Icons.assignment_late,
-      title: 'Privacy Policy'
-    ),
+        onPressed: () {},
+        leading: Icons.assignment_late,
+        title: 'Privacy Policy'),
     _listTileModel(
-      onPressed: (){},
-      leading: Icons.assignment,
-      title: 'Terms & Conditions'
-    ),
+        onPressed: () {},
+        leading: Icons.assignment,
+        title: 'Terms & Conditions'),
     _listTileModel(
-      onPressed: (){},
-      leading: Icons.info,
-      title: 'About this app'
-    ),
+        onPressed: () {}, leading: Icons.info, title: 'About this app'),
   ];
 
   List<_sosmedModel> sosmedList = [
     _sosmedModel(
-      icon: FontAwesomeIcons.facebook,
-      onTap: ()async{
-        await launch('https://www.facebook.com/febry.ardiansyah.792/urlString');
-      }
-    ),
+        icon: FontAwesomeIcons.facebook,
+        onTap: () async {
+          await launch(
+              'https://www.facebook.com/febry.ardiansyah.792/urlString');
+        }),
     _sosmedModel(
         icon: FontAwesomeIcons.instagram,
-        onTap: ()async{
+        onTap: () async {
           await launch('https://instagram.com/febry_ardiansyah24');
-        }
-    ),
+        }),
     _sosmedModel(
         icon: FontAwesomeIcons.youtube,
-        onTap: ()async{
+        onTap: () async {
           await launch('https:/youtube.com/muhammadfebry');
-        }
-    )
+        })
   ];
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init();
+    ScreenUtil.init(context);
     return Scaffold(
       body: Column(
         children: [
@@ -69,18 +61,16 @@ class _LainnyaScreenState extends State<LainnyaScreen> {
     );
   }
 
-  Widget _topBar(BuildContext context){
+  Widget _topBar(BuildContext context) {
     return Stack(
       children: [
         Container(
           width: MediaQuery.of(context).size.width,
           height: 600.h,
           decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/tenkinokowp.png'),
-              fit: BoxFit.fill
-            )
-          ),
+              image: DecorationImage(
+                  image: AssetImage('assets/images/tenkinokowp.png'),
+                  fit: BoxFit.fill)),
         ),
         Padding(
           padding: EdgeInsets.only(top: 200.h),
@@ -88,7 +78,14 @@ class _LainnyaScreenState extends State<LainnyaScreen> {
             child: Container(
               height: 170.h,
               width: 650.h,
-              child: Center(child: Text('MangaMint',style: GoogleFonts.modak(color: BaseColor.red,fontSize: 30,),)),
+              child: Center(
+                  child: Text(
+                'MangaMint',
+                style: GoogleFonts.modak(
+                  color: BaseColor.red,
+                  fontSize: 30,
+                ),
+              )),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.black.withOpacity(0.4),
@@ -99,52 +96,68 @@ class _LainnyaScreenState extends State<LainnyaScreen> {
         Positioned(
           bottom: 10,
           left: 0,
-          child: Image.asset('assets/images/aqua-chibi.png',
-          fit: BoxFit.fill,height: 100,width: 100,),
+          child: Image.asset(
+            'assets/images/aqua-chibi.png',
+            fit: BoxFit.fill,
+            height: 100,
+            width: 100,
+          ),
         )
       ],
     );
   }
 
-  Widget _buildListTile()=>ListView.separated(
-   itemCount: _list.length,
-    physics: ClampingScrollPhysics(),
-    shrinkWrap: true,
-    separatorBuilder: (context,i) => Divider(color: BaseColor.grey2,height: 0,),
-    itemBuilder:(context,i)=> ListTile(
-      title: Text(_list[i].title,style: TextStyle(color: BaseColor.black),),
-      onTap: (){
-        if(_list[i].title == 'Privacy Policy'){
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) => DetailLainnya(
-             title: 'Privacy Policy',
-              body: PRIVACY,
-            ),
-            fullscreenDialog: true
-          ));
-        }else if(_list[i].title == 'Terms & Conditions'){
-          Navigator.push(context, MaterialPageRoute(
-              builder: (context) => DetailLainnya(
-                title: 'Terms & Conditions',
-                body: TOS,
-              ),
-              fullscreenDialog: true
-          ));
-        }else{
-          Navigator.push(context, MaterialPageRoute(
-              builder: (context) => DetailLainnya(
-                title: 'About This App',
-                body: ABOUT_THIS_APP,
-              ),
-              fullscreenDialog: true
-          ));
-        }
-      },
-      leading: Icon(_list[i].leading,color: BaseColor.black,),
-    ),
-  );
+  Widget _buildListTile() => ListView.separated(
+        itemCount: _list.length,
+        physics: ClampingScrollPhysics(),
+        shrinkWrap: true,
+        separatorBuilder: (context, i) => Divider(
+          color: BaseColor.grey2,
+          height: 0,
+        ),
+        itemBuilder: (context, i) => ListTile(
+          title: Text(
+            _list[i].title,
+            style: TextStyle(color: BaseColor.black),
+          ),
+          onTap: () {
+            if (_list[i].title == 'Privacy Policy') {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DetailLainnya(
+                            title: 'Privacy Policy',
+                            body: PRIVACY,
+                          ),
+                      fullscreenDialog: true));
+            } else if (_list[i].title == 'Terms & Conditions') {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DetailLainnya(
+                            title: 'Terms & Conditions',
+                            body: TOS,
+                          ),
+                      fullscreenDialog: true));
+            } else {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DetailLainnya(
+                            title: 'About This App',
+                            body: ABOUT_THIS_APP,
+                          ),
+                      fullscreenDialog: true));
+            }
+          },
+          leading: Icon(
+            _list[i].leading,
+            color: BaseColor.black,
+          ),
+        ),
+      );
 
-  Widget _aboutDeveloper(BuildContext context){
+  Widget _aboutDeveloper(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -156,14 +169,23 @@ class _LainnyaScreenState extends State<LainnyaScreen> {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.asset('assets/images/aqua.JPG',width: 200.h,
-              height: 200.w,fit: BoxFit.cover,),
+              child: Image.asset(
+                'assets/images/aqua.JPG',
+                width: 200.h,
+                height: 200.w,
+                fit: BoxFit.cover,
+              ),
             ),
-            SizedBox(width: 10,),
+            SizedBox(
+              width: 10,
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Febry Ardiansyah',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                Text(
+                  'Febry Ardiansyah',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
                 Text('Febry#4750 ~ Discord')
               ],
             )
@@ -171,22 +193,29 @@ class _LainnyaScreenState extends State<LainnyaScreen> {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: sosmedList.map((e) => IconButton(
-            onPressed: e.onTap,
-            icon: FaIcon(e.icon,size: 20,),
-          )).toList(),
+          children: sosmedList
+              .map((e) => IconButton(
+                    onPressed: e.onTap,
+                    icon: FaIcon(
+                      e.icon,
+                      size: 20,
+                    ),
+                  ))
+              .toList(),
         )
       ],
     );
   }
 }
-class _sosmedModel{
+
+class _sosmedModel {
   IconData icon;
   Function onTap;
 
   _sosmedModel({this.icon, this.onTap});
 }
-class _listTileModel{
+
+class _listTileModel {
   String title;
   Function onPressed;
   IconData leading;
@@ -194,6 +223,7 @@ class _listTileModel{
   _listTileModel({this.title, this.onPressed, this.leading});
 }
 
-const String ABOUT_THIS_APP = '''MangaMint adalah aplikasi baca manga dan komik bahasa indonesia yang memiliki fitur seperti aplikasi manga lainnya, 
+const String ABOUT_THIS_APP =
+    '''MangaMint adalah aplikasi baca manga dan komik bahasa indonesia yang memiliki fitur seperti aplikasi manga lainnya, 
 tujuan membuat aplikasi ini karena emang lagi gabut aja. Gak ada niatan pengen jadi top 1 aplikasi manga atau semacamnya, kalo ada yang pake ya sykur kalo
 enggak ada ya pake sendiri hahahah 🤣''';

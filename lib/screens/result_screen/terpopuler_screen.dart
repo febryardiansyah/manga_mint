@@ -26,20 +26,20 @@ class _TerpopulerScreenState extends State<TerpopulerScreen> {
     _popularBloc = BlocProvider.of<PopularBloc>(context);
     _scrollController.addListener(_onScroll);
   }
+
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init();
-    return BlocConsumer<PopularBloc,PopularState>(
-      listener: (context,state){
-        if(state is PopularFailureState){
-          Scaffold.of(context)..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(
-              content: Text(state.msg),
-            ));
+    ScreenUtil.init(context);
+    return BlocConsumer<PopularBloc, PopularState>(
+      listener: (context, state) {
+        if (state is PopularFailureState) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(content: Text(state.msg)));
         }
       },
-      builder: (context,state){
-        if(state is PopularLoadingState){
+      builder: (context, state) {
+        if (state is PopularLoadingState) {
           return MyShimmer(
             child: Container(
               height: 100,
@@ -47,10 +47,14 @@ class _TerpopulerScreenState extends State<TerpopulerScreen> {
               color: BaseColor.red,
             ),
           );
-        }else if (state is PopularLoadedState) {
+        } else if (state is PopularLoadedState) {
           return MyBody(
             showRefresh: false,
-            title: Text('Terpopuler',style: TextStyle(color: BaseColor.black,fontWeight: FontWeight.bold),),
+            title: Text(
+              'Terpopuler',
+              style: TextStyle(
+                  color: BaseColor.black, fontWeight: FontWeight.bold),
+            ),
             body: Padding(
               padding: const EdgeInsets.only(top: 10),
               child: Scrollbar(
@@ -61,29 +65,29 @@ class _TerpopulerScreenState extends State<TerpopulerScreen> {
                   controller: _scrollController,
                   physics: ClampingScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 1,
-                    crossAxisSpacing: 1,
-                    childAspectRatio: 0.7
-                  ),
-                  itemBuilder: (context,i){
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 1,
+                      crossAxisSpacing: 1,
+                      childAspectRatio: 0.7),
+                  itemBuilder: (context, i) {
                     var data = state.popularList[i];
-                    return i >= state.popularList.length?BottomLoader()
-                    :InkWell(
-                      onTap: (){
-                        Navigator.pushNamed(context, '/detailmanga',arguments:
-                        state.popularList[i].endpoint);
-                      },
-                      child: ItemSmall(
-                        title: data.title,
-                        subtitle: data.type ?? '',
-                        bottom: data.upload_on  ?? '',
-                        thumb: data.thumb ?? '',
-                        onTap: (){
-                          Navigator.pushNamed(context, '/detailmanga',arguments: data.endpoint);
-                        },
-                      )
-                    );
+                    return i >= state.popularList.length
+                        ? BottomLoader()
+                        : InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/detailmanga',
+                                  arguments: state.popularList[i].endpoint);
+                            },
+                            child: ItemSmall(
+                              title: data.title,
+                              subtitle: data.type ?? '',
+                              bottom: data.upload_on ?? '',
+                              thumb: data.thumb ?? '',
+                              onTap: () {
+                                Navigator.pushNamed(context, '/detailmanga',
+                                    arguments: data.endpoint);
+                              },
+                            ));
                   },
                 ),
               ),
@@ -96,9 +100,10 @@ class _TerpopulerScreenState extends State<TerpopulerScreen> {
       },
     );
   }
-  void _onScroll() {
 
-    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+  void _onScroll() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
       _popularBloc.add(FetchPopular());
     }
   }

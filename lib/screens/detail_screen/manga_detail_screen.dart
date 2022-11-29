@@ -59,7 +59,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
 
   void _checkLastChapter() {
     setState(() {
-      _totalChapter = data.chapterList.length-1;
+      _totalChapter = data.chapterList.length - 1;
     });
     int count = lastOpenedBox.length;
     for (int i = 0; i < count; i++) {
@@ -86,28 +86,32 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init();
+    ScreenUtil.init(context);
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: _chapterEndpoint.isEmpty?Center():WatchBoxBuilder(
-          box: lastOpenedBox,
-          builder:(context,ch)=> FloatingActionButton(
-            child: Icon(Icons.history),
-            tooltip: 'Lanjutkan chapter',
-            backgroundColor: BaseColor.orange,
-            onPressed: (){
-              for(int i = 0;i<ch.length;i++){
-                 lastOpenedModel = lastOpenedBox.getAt(i);
-                 if (lastOpenedModel.manga_endpoint == widget.data.manga_endpoint) {
-                   print(lastOpenedModel.chapter_endpoint);
-                   Navigator.pushNamed(context, '/chapter',arguments: lastOpenedModel.chapter_endpoint);
-                   break;
-                 }
-              }
-            },
-          ),
-        ),
+        floatingActionButton: _chapterEndpoint.isEmpty
+            ? Center()
+            : WatchBoxBuilder(
+                box: lastOpenedBox,
+                builder: (context, ch) => FloatingActionButton(
+                  child: Icon(Icons.history),
+                  tooltip: 'Lanjutkan chapter',
+                  backgroundColor: BaseColor.orange,
+                  onPressed: () {
+                    for (int i = 0; i < ch.length; i++) {
+                      lastOpenedModel = lastOpenedBox.getAt(i);
+                      if (lastOpenedModel.manga_endpoint ==
+                          widget.data.manga_endpoint) {
+                        print(lastOpenedModel.chapter_endpoint);
+                        Navigator.pushNamed(context, '/chapter',
+                            arguments: lastOpenedModel.chapter_endpoint);
+                        break;
+                      }
+                    }
+                  },
+                ),
+              ),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(500.h),
           child: Stack(
@@ -311,10 +315,11 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
         _detailRow(key: 'Status', value: data.status),
         _detailRow(key: 'Author', value: data.author),
         _detailRow(key: 'Type', value: data.type),
-        _detailRow(key: 'Total Chapter',value: _totalChapter.toString()),
+        _detailRow(key: 'Total Chapter', value: _totalChapter.toString()),
       ],
     );
   }
+
   Widget _detailRow({String key, String value}) {
     return Row(
       children: [
@@ -329,7 +334,6 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
       ],
     );
   }
-
 
   Widget _genre(MangaDetailModel data) {
     return SizedBox(
@@ -373,7 +377,10 @@ class ChapterList extends StatefulWidget {
   bool isReversed;
   String chEndpoint;
 
-  ChapterList(this.data, this.isReversed, );
+  ChapterList(
+    this.data,
+    this.isReversed,
+  );
 
   @override
   _ChapterListState createState() => _ChapterListState();
@@ -399,7 +406,9 @@ class _ChapterListState extends State<ChapterList> {
       padding: const EdgeInsets.only(top: 10),
       child: ListView.separated(
         reverse: isReversed ? true : false,
-        separatorBuilder: (context,j) => Divider(color: BaseColor.grey2,),
+        separatorBuilder: (context, j) => Divider(
+          color: BaseColor.grey2,
+        ),
         itemCount: widget.data.chapterList.length,
         physics: ClampingScrollPhysics(),
         shrinkWrap: true,
@@ -429,23 +438,21 @@ class _ChapterListState extends State<ChapterList> {
                     break;
                   }
                 }
-                if(!isExist){
+                if (!isExist) {
                   lastBox.add(data);
                 }
                 Navigator.pushNamed(context, '/chapter',
                     arguments: widget.data.chapterList[index].chapter_endpoint);
               },
               child: Container(
-                color: _isClicked == index
-                    ? BaseColor.grey1
-                    : BaseColor.red,
+                color: _isClicked == index ? BaseColor.grey1 : BaseColor.red,
                 height: 50,
                 padding: EdgeInsets.all(8),
                 child: Center(
                     child: Text(
                   widget.data.chapterList[index].chapter_title,
                   style: TextStyle(color: Colors.white),
-                      textAlign: TextAlign.center,
+                  textAlign: TextAlign.center,
                 )),
               ),
             ),
@@ -454,11 +461,12 @@ class _ChapterListState extends State<ChapterList> {
       ),
     );
   }
-  void _setIndex(){
+
+  void _setIndex() {
     int count = lastBox.length;
-    for(int i =0;i<count;i++){
+    for (int i = 0; i < count; i++) {
       lastModel = lastBox.getAt(i);
-      if(lastModel.manga_endpoint == widget.data.manga_endpoint){
+      if (lastModel.manga_endpoint == widget.data.manga_endpoint) {
         setState(() {
           _isClicked = lastModel.lastChapter;
         });

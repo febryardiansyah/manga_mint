@@ -34,7 +34,7 @@ class _SemuanyaCategoryState extends State<SemuanyaCategory> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init();
+    ScreenUtil.init(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: BlocBuilder<MangaListBloc, MangaListState>(
@@ -64,7 +64,9 @@ class _SemuanyaCategoryState extends State<SemuanyaCategory> {
           } else if (state is MangaListStateLoaded) {
             return Scrollbar(
               child: ListView.separated(
-                separatorBuilder: (context,index)=>Divider(color: BaseColor.grey2,),
+                separatorBuilder: (context, index) => Divider(
+                  color: BaseColor.grey2,
+                ),
                 itemCount: state.hasReachedMax
                     ? state.mangaList.length
                     : state.mangaList.length + 1,
@@ -86,12 +88,12 @@ class _SemuanyaCategoryState extends State<SemuanyaCategory> {
                               Text(
                                 state.mangaList[i].type,
                                 style: TextStyle(
-                                    color: mangaTypeColor(state.mangaList[i].type)),
+                                    color: mangaTypeColor(
+                                        state.mangaList[i].type)),
                               ),
                               Text(
                                 state.mangaList[i].updated_on,
-                                style: TextStyle(
-                                    color: BaseColor.grey1),
+                                style: TextStyle(color: BaseColor.grey1),
                               ),
                             ],
                           ),
@@ -115,7 +117,7 @@ class _SemuanyaCategoryState extends State<SemuanyaCategory> {
                 },
               ),
             );
-          }else if(state is MangaListStateFailure){
+          } else if (state is MangaListStateFailure) {
             return BuildError();
           }
           return Container();

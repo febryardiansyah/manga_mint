@@ -39,7 +39,7 @@ class _ManhuaCategoryState extends State<ManhuaCategory> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init();
+    ScreenUtil.init(context);
     return Padding(
       padding: EdgeInsets.all(8),
       child: BlocBuilder<ManhuamanhwaBloc, ManhuamanhwaState>(

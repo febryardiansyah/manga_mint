@@ -31,7 +31,7 @@ class TerbaruCategory extends StatelessWidget {
           }else if (state is MangaListStateLoaded) {
             var mystate = state.mangaList;
             return ItemBig(
-              itemCount: mystate.getRange(0, 16).length,
+              itemCount: mystate.getRange(0,16).length,
               itemBuilder: (context,i){
                 var index = mystate[i];
                 return ItemBigChild(

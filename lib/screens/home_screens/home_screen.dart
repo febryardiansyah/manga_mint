@@ -28,18 +28,21 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     init();
-
   }
+
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init();
+    ScreenUtil.init(context);
     return MyBody(
-      onRefresh: (){
+      onRefresh: () {
         _onRefresh();
       },
-      title: Text('MangaMint',style: GoogleFonts.modak(color: BaseColor.red),),
+      title: Text(
+        'MangaMint',
+        style: GoogleFonts.modak(color: BaseColor.red),
+      ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 15),
         child: ListView(
           children: [
             MyCarousel(),
@@ -51,10 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
             //   child: TerpopularCategory()
             // ),
             _rowTitle(
-              showMore: false,
-                title: 'Terbaru',
-                child: TerbaruCategory()
-            ),
+                showMore: false, title: 'Terbaru', child: TerbaruCategory()),
             _categoryTitle('Genre'),
             GenreListHome(),
           ],
@@ -62,30 +62,36 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-  Widget _categoryTitle(String title){
+
+  Widget _categoryTitle(String title) {
     return Padding(
       padding: EdgeInsets.only(top: 10),
-      child: Text(title,
-      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
+      child: Text(
+        title,
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+      ),
     );
   }
-  Widget _rowTitle({String title,Function seemore,Widget child,bool showMore = true}){
+
+  Widget _rowTitle(
+      {String title, Function seemore, Widget child, bool showMore = true}) {
     return Column(
       children: [
         Row(
           children: [
             _categoryTitle(title),
             Spacer(),
-            showMore?InkWell(
-              onTap: seemore,
-                child: Text('lihat selengkapnya')):Center(),
+            showMore
+                ? InkWell(onTap: seemore, child: Text('lihat selengkapnya'))
+                : Center(),
           ],
         ),
         child
       ],
     );
   }
-  void init(){
+
+  void init() {
     _recomendedBloc = BlocProvider.of<RecomendedBloc>(context);
     _recomendedBloc.add(FetchRecommended());
     // _popularBloc = BlocProvider.of<PopularBloc>(context);
@@ -93,9 +99,9 @@ class _HomeScreenState extends State<HomeScreen> {
     _genreListBloc = BlocProvider.of<GenreListBloc>(context);
     _genreListBloc.add(FetchGenreList());
     _mangaListBloc = BlocProvider.of(context)..add(InitialFetchMangaEvent());
-
   }
-  void _onRefresh(){
+
+  void _onRefresh() {
     _recomendedBloc.add(RefreshRecommended());
     // _popularBloc.add(RefreshPopular());
     _genreListBloc.add(RefreshGenreList());
