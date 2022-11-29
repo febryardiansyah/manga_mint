@@ -13,6 +13,7 @@ class _SearchScreenState extends State<SearchScreen> {
     super.dispose();
     _txtEditingCtrl.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,23 +25,23 @@ class _SearchScreenState extends State<SearchScreen> {
           controller: _txtEditingCtrl,
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.go,
-          onFieldSubmitted: (value){
+          onFieldSubmitted: (value) {
             print(value);
-            Navigator.pushNamed(context, '/result',arguments: value);
+            Navigator.pushNamed(context, '/result', arguments: value);
           },
           decoration: InputDecoration(
-            hintText: 'Cari manga kesuakaan mu ..',
-            border: InputBorder.none,
-            suffix:FlatButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8)
-              ),
-              child: Text('Clear'),
-              onPressed: (){
-                _txtEditingCtrl.clear();
-              },
-            )
-          ),
+              hintText: 'Cari manga kesuakaan mu ..',
+              border: InputBorder.none,
+              suffix: TextButton(
+                style: TextButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+                child: Text('Clear'),
+                onPressed: () {
+                  _txtEditingCtrl.clear();
+                },
+              )),
         ),
       ),
       body: Center(),

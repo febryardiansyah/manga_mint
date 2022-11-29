@@ -8,7 +8,8 @@ import 'package:mangamint/helper/color_manga_type.dart';
 class ItemBig extends StatelessWidget {
   final itemCount, itemBuilder;
   final ScrollController controller;
-  const ItemBig({Key key, this.itemCount, this.itemBuilder,this.controller}) : super(key: key);
+  const ItemBig({Key key, this.itemCount, this.itemBuilder, this.controller})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +33,19 @@ class ItemBigChild extends StatelessWidget {
   final GestureTapCallback onTap;
 
   const ItemBigChild(
-      {Key key, this.type, this.thumb, this.title, this.chapter, this.update,this.onTap})
+      {Key key,
+      this.type,
+      this.thumb,
+      this.title,
+      this.chapter,
+      this.update,
+      this.onTap})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    ScreenUtil.init();
+    ScreenUtil.init(context);
     return InkWell(
       onTap: onTap,
       child: Column(
@@ -51,12 +58,13 @@ class ItemBigChild extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(8)),
                 child: ImageCacheLoading(
                   imgUrl: thumb,
-                  imageBuilder: (context,imgProvider){
+                  imageBuilder: (context, imgProvider) {
                     return Container(
                       height: 450.h,
                       width: size.width,
                       decoration: BoxDecoration(
-                          image: DecorationImage(image: imgProvider,fit: BoxFit.cover),
+                        image: DecorationImage(
+                            image: imgProvider, fit: BoxFit.cover),
                       ),
                     );
                   },

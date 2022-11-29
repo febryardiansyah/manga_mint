@@ -1,2 +1,1 @@
-
-const String BaseUrl = 'https://mangamint.kaedenoki.net/api/';
+const String BaseUrl = 'https://ai-mangaapi.herokuapp.com/api/';

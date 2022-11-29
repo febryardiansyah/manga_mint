@@ -18,18 +18,24 @@ class _TersimpanScreenState extends State<TersimpanScreen> {
   Widget build(BuildContext context) {
     return MyBody(
       showRefresh: false,
-      title: Text('Tersimpan',style: TextStyle(color: BaseColor.black,fontWeight: FontWeight.bold),),
+      title: Text(
+        'Tersimpan',
+        style: TextStyle(color: BaseColor.black, fontWeight: FontWeight.bold),
+      ),
       body: FutureBuilder(
         future: Hive.openBox('manga'),
-        builder: (context,snapshot){
-          if(snapshot.connectionState == ConnectionState.done){
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasError) {
-              return Center(child: Text('error'),);
-            } else{
-              return Hive.box('manga').isEmpty ?Center(
-                child: Text('Kosong Mint xixixi'),
-              )
-                  :_buildListview();
+              return Center(
+                child: Text('error'),
+              );
+            } else {
+              return Hive.box('manga').isEmpty
+                  ? Center(
+                      child: Text('Kosong Mint xixixi'),
+                    )
+                  : _buildListview();
             }
           }
           return Container();
@@ -37,60 +43,79 @@ class _TersimpanScreenState extends State<TersimpanScreen> {
       ),
     );
   }
-  _buildListview(){
+
+  _buildListview() {
     var mangaBox = Hive.box('manga');
     return WatchBoxBuilder(
       box: mangaBox,
-      builder: (context,manga) =>
-      manga.isEmpty?Center(child: Text('kosong mint xixixi'),):ListView.builder(
-        itemCount: mangaBox.length,
-        itemBuilder: (context,i){
-          HiveMangaModel mangaModel = mangaBox.getAt(i);
-          print(mangaBox.length);
-          return ListTile(
-            onTap: (){
-              Navigator.pushNamed(context, '/detailmanga',arguments:
-              mangaModel.manga_endpoint);
-            },
-            title: Text(mangaModel.title.length > 20 ? '${mangaModel.title}..':mangaModel.title),
-            subtitle: Text(mangaModel.type,style: TextStyle(color: mangaTypeColor(mangaModel.type)),),
-            trailing: FlatButton(
-              child: Text('Hapus',style: TextStyle(color: BaseColor.red),),
-              shape: RoundedRectangleBorder(
-                side: BorderSide(width: 1,color: BaseColor.red)
-              ),
-              onPressed: (){
-                showDialog(context: context,
-                builder: (nani){
-                  return AlertDialog(
-                    title: Text('Apa kamu yakin ingin menghapusnya ?'),
-                    actions: [
-                      FlatButton(
-                        child: Text('Batal'),
-                        onPressed: (){
-                          Navigator.pop(context);
-                        },
-                      ),
-                      FlatButton(
-                        child: Text('Yakin dong !!',style: TextStyle(color: BaseColor.red),),
-                        onPressed: (){
-                          mangaBox.deleteAt(i);
-                          Navigator.pop(context);
-                          Toast.show('Berhasil Dihapus', context,duration: Toast.LENGTH_LONG
-                              ,gravity: Toast.CENTER);
-                        },
-                      )
-                    ],
-                  );
-                });
+      builder: (context, manga) => manga.isEmpty
+          ? Center(
+              child: Text('kosong mint xixixi'),
+            )
+          : ListView.builder(
+              itemCount: mangaBox.length,
+              itemBuilder: (context, i) {
+                HiveMangaModel mangaModel = mangaBox.getAt(i);
+                print(mangaBox.length);
+                return ListTile(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/detailmanga',
+                        arguments: mangaModel.manga_endpoint);
+                  },
+                  title: Text(mangaModel.title.length > 20
+                      ? '${mangaModel.title}..'
+                      : mangaModel.title),
+                  subtitle: Text(
+                    mangaModel.type,
+                    style: TextStyle(color: mangaTypeColor(mangaModel.type)),
+                  ),
+                  trailing: TextButton(
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(width: 1, color: BaseColor.red)),
+                    ),
+                    child: Text(
+                      'Hapus',
+                      style: TextStyle(color: BaseColor.red),
+                    ),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (nani) {
+                            return AlertDialog(
+                              title:
+                                  Text('Apa kamu yakin ingin menghapusnya ?'),
+                              actions: [
+                                TextButton(
+                                  child: Text('Batal'),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text(
+                                    'Yakin dong !!',
+                                    style: TextStyle(color: BaseColor.red),
+                                  ),
+                                  onPressed: () {
+                                    mangaBox.deleteAt(i);
+                                    Navigator.pop(context);
+                                    Toast.show('Berhasil Dihapus', context,
+                                        duration: Toast.LENGTH_LONG,
+                                        gravity: Toast.CENTER);
+                                  },
+                                )
+                              ],
+                            );
+                          });
+                    },
+                  ),
+                  leading: Image.network(
+                    mangaModel.thumb,
+                  ),
+                );
               },
             ),
-            leading: Image.network(
-              mangaModel.thumb,
-            ),
-          );
-        },
-      ),
     );
   }
 }
